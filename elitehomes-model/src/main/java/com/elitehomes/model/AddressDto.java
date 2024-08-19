@@ -25,5 +25,5 @@ public class AddressDto {
     private String number;
     private String zipCode;
     private String complement;
-    private String details;
+    private String description;
 }

@@ -81,42 +81,42 @@
         primary key (id)
     ) engine=InnoDB;
 
-    alter table property
+    alter table property 
        add constraint UK_5ly66b153lksl8njtd39hj6mq unique (address_id);
 
-    alter table real_estate
+    alter table real_estate 
        add constraint uk_real_estate_company_reg_number unique (company_reg_number);
 
-    alter table real_estate
+    alter table real_estate 
        add constraint UK_k958w4nr51ao4xj4llm72yhy2 unique (address_id);
 
-    alter table users
+    alter table users 
        add constraint uk_user_email unique (email);
 
-    alter table users
+    alter table users 
        add constraint UK_4ai7rrtrvwtgtqavv8okpxrul unique (user_details_id);
 
-    alter table attachment
-       add constraint fk_attachment_property
-       foreign key (attachment_id)
+    alter table attachment 
+       add constraint fk_attachment_property 
+       foreign key (attachment_id) 
        references property (id);
 
-    alter table property
-       add constraint fk_address_property
-       foreign key (address_id)
+    alter table property 
+       add constraint fk_address_property 
+       foreign key (address_id) 
        references address (id);
 
-    alter table property
-       add constraint fk_owner_property
-       foreign key (owner_id)
+    alter table property 
+       add constraint fk_owner_property 
+       foreign key (owner_id) 
        references owner (id);
 
-    alter table real_estate
-       add constraint fk_address_real_estate
-       foreign key (address_id)
+    alter table real_estate 
+       add constraint fk_address_real_estate 
+       foreign key (address_id) 
        references address (id);
 
-    alter table users
-       add constraint fk_user_details
-       foreign key (user_details_id)
+    alter table users 
+       add constraint fk_user_details 
+       foreign key (user_details_id) 
        references user_details (id);

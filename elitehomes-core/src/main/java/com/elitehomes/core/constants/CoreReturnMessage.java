@@ -23,7 +23,8 @@ public enum CoreReturnMessage {
     DUPLICATED_ERROR(12),
     NO_RECORD_FOUND(13),
     ACCOUNT_SUCESS(14),
-    DATA_OUTDATED(15);
+    DATA_OUTDATED(15),
+    DELETED_SUCESS(16);
 
     private final Integer code;
 }

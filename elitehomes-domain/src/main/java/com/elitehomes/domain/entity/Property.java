@@ -1,6 +1,7 @@
 package com.elitehomes.domain.entity;
 
 
+import com.elitehomes.domain.base.EntityLifeCycle;
 import com.elitehomes.domain.ref.PropertyGoal;
 import com.elitehomes.domain.ref.PropertyType;
 import jakarta.persistence.CascadeType;
@@ -9,49 +10,40 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Where;
 
 import java.time.Instant;
+import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
+@ToString(callSuper = true)
 @Entity(name = "property")
-public class Property {
+public class Property extends EntityLifeCycle {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "integer unsigned")
-    private Long id;
-
-    @Column(columnDefinition = "timestamp")
-    private Instant createdAt;
-
-    @Size(min = 0, max = 15)
+    @Max(15)
     private Integer numBedroom;
 
-    @Size(min = 0, max = 15)
+    @Max(15)
     private Integer numBathroom;
 
-    @Size(min = 0, max = 15)
+    @Max(15)
     private Integer numSuite;
 
-    @Size(min = 0, max = 15)
+    @Max(15)
     private Integer parkingSpaces;
 
     @NotNull
@@ -66,8 +58,13 @@ public class Property {
 
     private Double value;
 
-    private String details;
-    private String valueDetails;
+    private String description;
+    private String valueDescription;
+
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name="attachment_id", referencedColumnName="id",  foreignKey = @ForeignKey(name = "fk_attachment_property"))
+    @Valid
+    private List<Attachment> attachment;
 
     @Valid
     @NotNull
@@ -80,4 +77,24 @@ public class Property {
     @ManyToOne
     @JoinColumn(name="owner_id", foreignKey = @ForeignKey(name = "fk_owner_property"))
     private Owner owner;
+
+    @Builder(setterPrefix = "with")
+	public Property(Long id, Instant createdAt, Short version, Integer numBedroom,
+			Integer numBathroom, Integer numSuite, Integer parkingSpaces, PropertyGoal goal, PropertyType type,
+			Double value, String description, String valueDescription, List<Attachment> attachment, Address address,
+			Owner owner) {
+        super(id, createdAt, version);
+        this.numBedroom = numBedroom;
+        this.numBathroom = numBathroom;
+        this.numSuite = numSuite;
+        this.parkingSpaces = parkingSpaces;
+        this.goal = goal;
+        this.type = type;
+        this.value = value;
+        this.description = description;
+        this.valueDescription = valueDescription;
+        this.attachment = attachment;
+        this.address = address;
+        this.owner = owner;
+    }
 }

@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,29 +16,20 @@ import lombok.Setter;
 @Data
 @Setter
 @Getter
-@Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Address {
+public class Attachment {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "integer unsigned")
     private Long id;
 
-    private String country;
-    private String state;
-    private String city;
+    @NotNull
+    private String url;
 
-    @Column(length = 150)
-    private String neighborhood;
-    private String street;
-
-    @Column(length = 10)
-    private String number;
-    private String zipCode;
-    private String complement;
-    private String description;
+    @NotNull
+    private String name;
 
 }

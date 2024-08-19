@@ -23,7 +23,7 @@
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-jaxrs2.version>2.2.20</swagger-jaxrs2.version>
-        <model-mapper.version>3.0.0</model-mapper.version>
+        <dozer-mapper.version>7.0.0</dozer-mapper.version>
         <apache-commons.version>3.14.0</apache-commons.version>
         <io.jsonwebtoken-version>0.12.5</io.jsonwebtoken-version>
         <test-container-mongodb.version>1.19.0</test-container-mongodb.version>

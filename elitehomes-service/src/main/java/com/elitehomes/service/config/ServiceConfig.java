@@ -1,15 +1,19 @@
 package com.elitehomes.service.config;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.dozermapper.spring.DozerBeanMapperFactoryBean;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -29,6 +33,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @EntityScan("com.elitehomes.domain.entity")
 @ComponentScan(basePackages = {
 		"com.elitehomes.service.impl",
+		"com.elitehomes.domain.repository.gcp",
 		"com.elitehomes.service.converter",
 		"com.elitehomes.domain.config"})
 @EnableAutoConfiguration(exclude = { QuartzAutoConfiguration.class })
@@ -45,6 +50,18 @@ public class ServiceConfig {
 				.addModule(new JavaTimeModule())
 				.disable(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)
 				.build();
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+
+	@Bean
+	public DozerBeanMapperFactoryBean dozerMapper(ResourcePatternResolver resourcePatternResolver) throws IOException {
+		DozerBeanMapperFactoryBean factoryBean = new DozerBeanMapperFactoryBean();
+		factoryBean.setMappingFiles(resourcePatternResolver.getResources("classpath*:/*mapping.xml"));
+		return factoryBean;
 	}
 
 	@Bean

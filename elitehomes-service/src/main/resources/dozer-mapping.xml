@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
+
+	<configuration>
+    	<relationship-type>non-cumulative</relationship-type>
+
+		<custom-converters>
+			<converter type="com.elitehomes.service.converter.JpaRepositorySelector">
+				<class-a>com.elitehomes.core.entity.base.Selectable</class-a>
+				<class-b>com.elitehomes.model.base.SelectableDto</class-b>
+			</converter>
+
+		</custom-converters>
+
+	</configuration>
+
+	<mapping>
+		<class-a>com.elitehomes.model.base.ExcludedFieldDto</class-a>
+		<class-b>com.elitehomes.domain.base.EntityLifeCycle</class-b>
+		<field-exclude type="one-way">
+			<a>id</a>
+			<b>id</b>
+		</field-exclude>
+		<field-exclude type="one-way">
+			<a>createdAt</a>
+			<b>createdAt</b>
+		</field-exclude>
+		<field-exclude type="one-way">
+			<a>version</a>
+			<b>version</b>
+		</field-exclude>
+	</mapping>
+
+</mappings>  

@@ -44,11 +44,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>${model-mapper.version}</version>
-        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>

@@ -1,6 +1,7 @@
 package com.elitehomes.model;
 
 import com.elitehomes.core.entity.base.Versionable;
+import com.elitehomes.model.base.ExcludedFieldDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.time.Instant;
 @Builder(setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class RealEstateDto implements Versionable {
+public class RealEstateDto implements Versionable, ExcludedFieldDto {
 
     private Long id;
     private Instant createdAt;
@@ -28,5 +29,6 @@ public class RealEstateDto implements Versionable {
 
     private AddressDto address;
     private ContactDto contact;
+
 
 }

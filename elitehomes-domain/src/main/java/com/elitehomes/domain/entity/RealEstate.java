@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,14 +22,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.Instant;
+
 
 @Setter
 @Getter
-@Builder
 @ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Table(uniqueConstraints = {
+		@UniqueConstraint(columnNames = "companyRegNumber", name = "uk_real_estate_company_reg_number")
+})
 public class RealEstate extends EntityLifeCycle {
 
 	@NotNull
@@ -50,4 +55,12 @@ public class RealEstate extends EntityLifeCycle {
 	@Convert(converter = ContactConverter.class)
 	private Contact contact;
 
+	@Builder(setterPrefix = "with")
+	public RealEstate(Long id, @NotNull Instant createdAt, @NotNull Short version, String companyRegNumber, String creci, Address address, Contact contact) {
+		super(id, createdAt, version);
+		this.companyRegNumber = companyRegNumber;
+		this.creci = creci;
+		this.address = address;
+		this.contact = contact;
+	}
 }

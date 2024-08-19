@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Authentication {
 
+    public UserType[] types() default {};
+
 }
