@@ -6,10 +6,10 @@ import com.elitehomes.core.entity.base.Selectable;
 
 public enum UserType implements Selectable {
 
-	MASTER(0, "Rent"),
-	ADMIN(1, "Admin"),
-	REALTOR(2, "Realtor"),
-	USER(3, "User");
+	MASTER(1, "Master"),
+	ADMIN(60, "Admin"),
+	REALTOR(80, "Realtor"),
+	USER(100, "User");
 
 	private final Integer ordinal;
 	private final String value;

@@ -9,9 +9,6 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import org.modelmapper.ModelMapper;
-
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -28,7 +25,6 @@ public class JwtUtils {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final Base64.Encoder BASE64_ENCODER = Base64.getUrlEncoder();
-    private static final ModelMapper mapper = new ModelMapper();
 
     public static String generate(LoginDto login, String application, String ipAddress) {
         Instant issuedAt = Instant.now();
@@ -49,8 +45,8 @@ public class JwtUtils {
                 .verifyWith(CHAVE)
                 .build()
                 .parseSignedClaims(token);
-
-        return mapper.map(jws.getPayload().get(USER_AUTH_CLAIM), LoginDto.class);
+            return null;
+//        return mapper.map(jws.getPayload().get(USER_AUTH_CLAIM), LoginDto.class);
     }
 
 

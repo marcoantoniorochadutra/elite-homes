@@ -34,6 +34,10 @@ import java.util.List;
 @Entity(name = "property")
 public class Property extends EntityLifeCycle {
 
+    @NotNull
+    @Column(length = 50)
+    private String title;
+
     @Max(15)
     private Integer numBedroom;
 

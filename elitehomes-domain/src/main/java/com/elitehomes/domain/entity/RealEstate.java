@@ -30,14 +30,23 @@ import java.time.Instant;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints = {
-		@UniqueConstraint(columnNames = "companyRegNumber", name = "uk_real_estate_company_reg_number")
+@Table(catalog = "elite_homes_root",
+		uniqueConstraints = {
+			@UniqueConstraint(columnNames = "companyRegNumber", name = "uk_real_estate_company_reg_number")
 })
 public class RealEstate extends EntityLifeCycle {
 
 	@NotNull
 	@Column(length = 50)
+	private String name;
+
+	@NotNull
+	@Column(length = 50)
 	private String companyRegNumber;
+
+	@NotNull
+	@Column(length = 12)
+	private String tenantKey;
 
 	@NotNull
 	@Column(length = 50)

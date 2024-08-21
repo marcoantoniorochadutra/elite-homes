@@ -11,7 +11,6 @@ import com.elitehomes.service.PropertyService;
 import com.elitehomes.service.base.AbstractCrudService;
 import com.elitehomes.service.base.AttachmentService;
 import com.github.dozermapper.core.Mapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;

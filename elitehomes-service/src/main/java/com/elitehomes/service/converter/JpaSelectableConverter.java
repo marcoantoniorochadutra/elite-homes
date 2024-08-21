@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JpaRepositorySelector extends dozerSelectableConverter{
+public class JpaSelectableConverter extends SelectableConverter {
 
     private final PropertyRepository propertyRepository;
     private final OwnerRepository ownerRepository;
 
     @Autowired
-    public JpaRepositorySelector(PropertyRepository propertyRepository,
-                                 OwnerRepository ownerRepository) {
+    public JpaSelectableConverter(PropertyRepository propertyRepository,
+                                  OwnerRepository ownerRepository) {
         this.propertyRepository = propertyRepository;
         this.ownerRepository = ownerRepository;
     }

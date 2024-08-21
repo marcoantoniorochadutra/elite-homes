@@ -9,7 +9,6 @@ import com.elitehomes.domain.base.LifeCycleFields;
 import com.elitehomes.core.entity.base.Versionable;
 import com.elitehomes.model.base.MessageDto;
 import com.github.dozermapper.core.Mapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Isolation;
@@ -39,10 +38,14 @@ public abstract class AbstractCrudService<D extends LifeCycleFields, M> implemen
 	public M create(M model, LoginDto login) {
 		validateModel(model, login);
 		D domain = convertToDomain(model);
-		System.err.println(domain);
 		populateCreateFields(domain);
 		domain = getRepository().saveAndFlush(domain);
+		afterSave(domain);
 		return convertToModel(domain);
+	}
+
+	protected void afterSave(D domain) {
+
 	}
 
 	@Override
@@ -110,6 +113,8 @@ public abstract class AbstractCrudService<D extends LifeCycleFields, M> implemen
 	private void populateCreateFields(D domain) {
 		domain.setCreatedAt(Instant.now());
 	}
+
+
 
 	private void validateModel(M model, LoginDto login) {
 		if(Objects.isNull(model)) {

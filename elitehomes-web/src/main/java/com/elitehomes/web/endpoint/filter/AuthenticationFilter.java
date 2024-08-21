@@ -3,6 +3,7 @@ package com.elitehomes.web.endpoint.filter;
 import java.util.Objects;
 
 import com.elitehomes.core.auth.LoginDto;
+import com.elitehomes.domain.config.TenantContext;
 import com.elitehomes.web.authentication.LoginFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,15 +41,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 		LoginDto login = (LoginDto) requestContext.getProperty(LoginFactory.LOGIN_PROPERTY);
 		Authentication annotation = getAuthenticationAnnotation(resourceInfo);
+		System.err.println(TenantContext.getCurrentTenant());
 
-		if (!isLoginValid(login)) {
-//			throwAuthException(CoreReturnMessage.LOGIN_NOT_INFORMED_ERROR);
-		}
+		String ten = requestContext.getHeaders().getFirst("tenant");
+		TenantContext.setCurrentTenant(ten);
 
-		boolean allowed = verifyToken(annotation, login);
-		if (!allowed) {
-//			throwAuthException(CoreReturnMessage.LOGIN_UNAUTHORIZED_ERROR);
-		}
+
 	}
 
 	private void throwAuthException(String message) {

@@ -7,7 +7,7 @@
     	<relationship-type>non-cumulative</relationship-type>
 
 		<custom-converters>
-			<converter type="com.elitehomes.service.converter.JpaRepositorySelector">
+			<converter type="com.elitehomes.service.converter.JpaSelectableConverter">
 				<class-a>com.elitehomes.core.entity.base.Selectable</class-a>
 				<class-b>com.elitehomes.model.base.SelectableDto</class-b>
 			</converter>

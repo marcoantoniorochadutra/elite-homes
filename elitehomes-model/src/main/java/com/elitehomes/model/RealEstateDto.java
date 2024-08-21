@@ -24,6 +24,9 @@ public class RealEstateDto implements Versionable, ExcludedFieldDto {
     private Instant createdAt;
     private Short version;
 
+    private String tenantKey;
+
+    private String name;
     private String companyRegNumber;
     private String creci;
 

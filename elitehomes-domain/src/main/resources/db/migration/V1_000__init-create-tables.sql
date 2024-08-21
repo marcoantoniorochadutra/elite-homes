@@ -36,6 +36,7 @@
     ) engine=InnoDB;
 
     create table property (
+        title varchar(50) not null,
         goal tinyint unsigned not null check (goal between 0 and 1),
         num_bathroom integer check (num_bathroom<=15),
         num_bedroom integer check (num_bedroom<=15),

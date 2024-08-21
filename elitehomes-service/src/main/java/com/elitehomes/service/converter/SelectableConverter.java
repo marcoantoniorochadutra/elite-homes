@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Objects;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public abstract class dozerSelectableConverter implements CustomConverter {
+public abstract class SelectableConverter implements CustomConverter {
 
-    private static final Logger log = LoggerFactory.getLogger(dozerSelectableConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(SelectableConverter.class);
 
     protected abstract JpaRepository<?, Long> getRepository(Class<?> destinationClass);
 

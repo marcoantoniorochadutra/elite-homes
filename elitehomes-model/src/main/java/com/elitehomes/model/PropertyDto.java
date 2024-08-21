@@ -25,6 +25,8 @@ public class PropertyDto implements Versionable, ExcludedFieldDto {
     private Instant createdAt;
     private Short version;
 
+    private String title;
+
     private Integer numBedroom;
     private Integer numBathroom;
     private Integer numSuite;
