@@ -1,0 +1,30 @@
+server:
+  port: ${PORT:8044}
+
+spring.profiles.active: ${SPRING_BOOT_PROFILE:local}
+
+spring:
+  hibernate:
+    ddl-auto: validate
+  mustache:
+      check-template-location: false
+  flyway.enabled: false
+vaadin:
+  launch-browser: true
+  productionMode: false
+  whitelisted-packages: com.vaadin,org.vaadin,dev.hilla,com.example.application,com.wontlost
+  vaadin.allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.wontlost
+sinch.api.key : faeff070cb5740a9865d6b1b2f90b7b5
+sinch.number: 447520652380
+sinch.plan.id: 4b6d59d223d24cb0a0c83d334c2761e6
+
+logging:
+  level:
+    org:
+      atmosphere: warn
+
+#
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action: create
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target: schema.sql
+spring.jpa.properties.hibernate.format_sql: true
+
