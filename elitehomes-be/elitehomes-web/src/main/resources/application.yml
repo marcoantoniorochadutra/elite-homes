@@ -1,0 +1,32 @@
+spring.profiles.active: ${SPRING_BOOT_PROFILE:local}
+
+server:
+  port: 8070
+  servlet.context-path: /
+spring:
+  main:
+    banner-mode: off
+  datasource:
+    hikari:
+      poolName: elitehomes_pool
+      autoCommit: false
+      connectionTimeout: 120000
+      validationTimeout: 60000
+      maxLifetime: 1500000
+      leakDetectionThreshold: 120000
+      maximumPoolSize: ${DB_POOLSIZE:40}
+  flyway.enabled: false
+  jersey:
+    application-path: elitehomes/api
+springdoc:
+  api-docs:
+    path: /api-docs
+
+logging.config: classpath:logback-spring-local.xml
+
+env:
+  multitenant.db.default: elite_homes_root
+
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action: create
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target: schema.sql
+spring.jpa.properties.hibernate.format_sql: true
