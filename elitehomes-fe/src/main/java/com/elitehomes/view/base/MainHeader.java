@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 
-@CssImport(value = "./styles/component-style.css")
 public class MainHeader extends Composite<HorizontalLayout>  {
 
     public MainHeader() {

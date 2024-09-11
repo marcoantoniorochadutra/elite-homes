@@ -1,6 +1,6 @@
 package com.elitehomes.view.components.builder;
 
-import com.elitehomes.view.components.ref.ButtonType;
+import com.elitehomes.view.components.ref.ComponentType;
 import com.elitehomes.view.components.ref.StyleConstants;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
@@ -16,7 +16,7 @@ public class ButtonBuilder {
     private Class<? extends Component> navigate;
     private String routeParam;
     private String text;
-    private ButtonType type;
+    private ComponentType type;
     private Component icon;
     private Boolean widthFull;
     private String width;
@@ -126,7 +126,7 @@ public class ButtonBuilder {
         }
     }
 
-    public ButtonBuilder setType(ButtonType variant) {
+    public ButtonBuilder setType(ComponentType variant) {
         this.type = variant;
         return this;
     }

@@ -16,7 +16,7 @@ import com.elitehomes.domain.repository.OwnerRepository;
 import com.elitehomes.domain.repository.PropertyRepository;
 import com.elitehomes.domain.repository.RealEstateRepository;
 import com.elitehomes.domain.repository.UserRepository;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -145,6 +145,7 @@ public class AbstractTestSupport extends AbstractTestDbSetup {
 				.withOwner(defaultOwner())
 				.withValue(2500.0)
 				.withDescription(description)
+				.withTitle("Property " + description)
 				.withValueDescription("value description")
 				.withAddress(defaultAddress())
 				.build();

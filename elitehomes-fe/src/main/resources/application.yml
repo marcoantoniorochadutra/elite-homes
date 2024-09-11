@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8044}
+  port: ${PORT:8045}
 
 spring.profiles.active: ${SPRING_BOOT_PROFILE:local}
 
@@ -12,11 +12,8 @@ spring:
 vaadin:
   launch-browser: true
   productionMode: false
-  whitelisted-packages: com.vaadin,org.vaadin,dev.hilla,com.example.application,com.wontlost
-  vaadin.allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.wontlost
-sinch.api.key : faeff070cb5740a9865d6b1b2f90b7b5
-sinch.number: 447520652380
-sinch.plan.id: 4b6d59d223d24cb0a0c83d334c2761e6
+  whitelisted-packages: com.vaadin,org.vaadin,dev.hilla,com.wontlost,com.flowingcode.addons.carousel
+  vaadin.allowed-packages: com.vaadin,org.vaadin,dev.hilla,com.wontlost,com.flowingcode.addons.carousel
 
 logging:
   level:

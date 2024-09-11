@@ -4,7 +4,7 @@ import com.elitehomes.core.entity.base.Selectable;
 import com.elitehomes.domain.ref.PropertyGoal;
 import com.elitehomes.domain.ref.PropertyGroup;
 import com.elitehomes.domain.ref.PropertyType;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.elitehomes.service.ReferenceService;
 import org.springframework.stereotype.Service;
 

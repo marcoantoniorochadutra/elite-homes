@@ -8,11 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.elitehomes.core.constants.SystemConstants;
 import com.elitehomes.domain.entity.User;
 import com.elitehomes.domain.entity.UserDetails;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.elitehomes.core.exceptions.BusinessException;
+import com.elitehomes.core.exception.BusinessException;
 import com.elitehomes.support.AbstractTestSupport;
+
+import java.util.Locale;
 
 public class UserServiceTest extends AbstractTestSupport {
 
@@ -38,7 +41,7 @@ public class UserServiceTest extends AbstractTestSupport {
 		BusinessException ex = assertThrows(BusinessException.class,
 				() -> accountService.registerUser("Marco Dutra", "email", "123456&!#Claudio"));
 
-		assertEquals("Invalid information [email]", ex.getMessage());
+		assertEquals("Invalid information [ email ]", ex.getMessage());
 	}
 
 	@Test
@@ -47,7 +50,7 @@ public class UserServiceTest extends AbstractTestSupport {
 		BusinessException ex = assertThrows(BusinessException.class,
 				() -> accountService.registerUser(null, "email@hotmail.com", "123456&!#Claudio"));
 
-		assertEquals("Field must be filled [name]", ex.getMessage());
+		assertEquals("Field must be filled [ name ]", ex.getMessage());
 	}
 
 	@Test

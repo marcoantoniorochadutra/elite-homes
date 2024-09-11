@@ -1,12 +1,5 @@
 package com.elitehomes.service.impl;
 
-import java.util.Objects;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.elitehomes.core.auth.JwtUtils;
 import com.elitehomes.core.auth.LoginDto;
@@ -14,13 +7,20 @@ import com.elitehomes.core.auth.LoginOrigin;
 import com.elitehomes.core.auth.LoginWeb;
 import com.elitehomes.core.config.ReturnMessage;
 import com.elitehomes.core.constants.CoreReturnMessage;
-import com.elitehomes.core.exceptions.LoginException;
-import com.elitehomes.core.exceptions.ref.LoginError;
+import com.elitehomes.core.exception.ref.LoginError;
+import com.elitehomes.core.exception.LoginException;
 import com.elitehomes.core.utils.PasswordUtils;
 import com.elitehomes.domain.entity.User;
 import com.elitehomes.domain.repository.UserRepository;
 import com.elitehomes.model.auth.AccountAcessDto;
 import com.elitehomes.service.AuthenticationService;
+import org.apache.commons.lang3.BooleanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

@@ -6,7 +6,7 @@ import com.elitehomes.domain.ref.PropertyType;
 import com.elitehomes.model.AddressDto;
 import com.elitehomes.model.PropertyDto;
 import com.elitehomes.core.entity.base.MessageDto;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.elitehomes.support.AbstractTestSupport;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +46,7 @@ public class PropertyServiceTest extends AbstractTestSupport {
                 .withOwner(new SelectableDto("1"))
                 .withValue(2500.0)
                 .withDescription("description")
+                .withTitle("Property Title")
                 .withValueDescription("value description")
                 .withAddress(address)
                 .build();

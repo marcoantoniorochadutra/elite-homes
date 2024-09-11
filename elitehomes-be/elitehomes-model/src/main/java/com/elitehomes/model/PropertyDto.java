@@ -1,21 +1,21 @@
 package com.elitehomes.model;
 
 import com.elitehomes.core.entity.base.Versionable;
-import com.elitehomes.model.base.ExcludedFieldDto;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.ExcludedFieldDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
 
-@Data
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")

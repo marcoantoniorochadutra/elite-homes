@@ -5,8 +5,8 @@ import com.elitehomes.core.auth.LoginWeb;
 import com.elitehomes.core.config.ReturnMessage;
 import com.elitehomes.core.constants.CoreReturnMessage;
 import com.elitehomes.core.constants.SystemConstants;
-import com.elitehomes.core.exceptions.LoginException;
-import com.elitehomes.core.exceptions.ref.LoginError;
+import com.elitehomes.core.exception.LoginException;
+import com.elitehomes.core.exception.ref.LoginError;
 import com.elitehomes.model.auth.AccountAcessDto;
 import com.elitehomes.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,7 +52,7 @@ public class AuthenticationController extends AbstractController {
         }
         byte[] decoded = Base64.getDecoder().decode(authorization);
         String[] divided = new String(decoded).split(SystemConstants.DEFAULT_DIVISOR);
-        System.err.println(divided[0]);
+
         if (divided.length < 1) {
             throw new LoginException(ReturnMessage.getMessage(CoreReturnMessage.LOGIN_UNAUTHORIZED_ERROR), LoginError.TOKEN);
         }

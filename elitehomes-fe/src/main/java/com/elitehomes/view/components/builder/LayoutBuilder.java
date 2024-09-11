@@ -65,8 +65,6 @@ public class LayoutBuilder {
 
     }
 
-
-
     private void configureSize(HasSize component) {
         setWidthLayout(component);
         setHeightLayout(component);

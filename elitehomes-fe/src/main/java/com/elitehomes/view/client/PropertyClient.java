@@ -1,7 +1,7 @@
 package com.elitehomes.view.client;
 
+import com.elitehomes.core.model.result.PropertyResultDto;
 import com.elitehomes.view.entity.LoginDto;
-import com.elitehomes.view.entity.PropertyResultDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;

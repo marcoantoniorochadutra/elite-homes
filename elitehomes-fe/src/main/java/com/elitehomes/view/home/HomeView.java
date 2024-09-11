@@ -4,15 +4,18 @@ import com.elitehomes.view.base.MainLayout;
 import com.elitehomes.view.components.builder.LayoutBuilder;
 import com.elitehomes.view.entity.ref.PropertyGoal;
 import com.elitehomes.view.search.SearchView;
-import com.infraleap.animatecss.Animated;
+import com.flowingcode.vaadin.addons.carousel.Carousel;
+import com.flowingcode.vaadin.addons.carousel.Slide;
+
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -103,45 +106,23 @@ public class HomeView extends Composite<VerticalLayout> implements AfterNavigati
 	private VerticalLayout buildSuggestionPart() {
 		VerticalLayout wrapper = LayoutBuilder.builder().buildVertical();
 
-		HorizontalLayout horizontalLayout = new HorizontalLayout();
-		horizontalLayout.setWidthFull();
-		horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+		Slide s1 = new Slide(createSlideContent("Slide 1","green"));
+		Slide s2 = new Slide(createSlideContent("Slide 2","blue"));
+		Slide s3 = new Slide(createSlideContent("Slide 3","red"));
+		Slide s4 = new Slide(createSlideContent("Slide 4","yellow"));
 
-		HorizontalLayout sandbox = new HorizontalLayout();
-		sandbox.add(new H1("Animate.CSS"));
+		Carousel c = new Carousel(s1,s2,s3,s4);
+		c.setWidth("100%");
+		c.setHeight("180px");
+		c.addChangeListener(e -> Notification.show("changed!", 1000, Notification.Position.BOTTOM_END));
 
-		horizontalLayout.add(sandbox);
-		wrapper.add(horizontalLayout);
-
-		Button nextButton = new Button("Next Animation");
-		wrapper.add(nextButton);
-
-		ComboBox<Animated.Animation> comboBox = new ComboBox<>();
-		comboBox.setItems(Animated.Animation.values());
-		comboBox.setItemLabelGenerator(Enum::name);
-		comboBox.setWidth("300px");
-		wrapper.add(comboBox);
-
-		ComboBox<Animated.Modifier> modifierComboBox = new ComboBox<>();
-		modifierComboBox.setItems(Animated.Modifier.values());
-		modifierComboBox.setItemLabelGenerator(Enum::name);
-		modifierComboBox.setValue(Animated.Modifier.REPEAT_1);
-		modifierComboBox.setWidth("300px");
-		wrapper.add(modifierComboBox);
-
-		nextButton.addClickListener( e -> {
-			int nextOrdinal = (comboBox.getValue().ordinal() + 1) % Animated.Animation.values().length;
-			comboBox.setValue(Animated.Animation.values()[nextOrdinal]);
-		});
-		comboBox.addValueChangeListener(event -> {
-			Animated.animate(sandbox, event.getValue(), modifierComboBox.getValue());
-		});
-		modifierComboBox.addValueChangeListener (event-> {
-			Animated.animate(sandbox, comboBox.getValue(), event.getValue());
-		} );
-
-		comboBox.setValue(Animated.Animation.ROLL_IN);
+		wrapper.add(c);
 		return wrapper;
+	}
+
+	private HorizontalLayout createSlideContent(String s, String green) {
+		Image img = new Image("https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80", s);
+		return LayoutBuilder.builder().setBackground(green).setComponents(img).buildHorizontal();
 	}
 
 	private HorizontalLayout buildInfoPart() {

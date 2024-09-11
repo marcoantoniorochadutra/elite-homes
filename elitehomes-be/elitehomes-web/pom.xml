@@ -7,8 +7,8 @@
     <packaging>jar</packaging>
     <parent>
         <groupId>com.elitehomes</groupId>
-        <artifactId>elitehomes</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>elitehomes-be</artifactId>
+        <version>0.0.01</version>
     </parent>
 
     <dependencies>

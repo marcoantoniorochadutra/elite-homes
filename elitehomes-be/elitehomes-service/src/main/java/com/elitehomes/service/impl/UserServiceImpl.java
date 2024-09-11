@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.elitehomes.core.config.ReturnMessage;
 import com.elitehomes.core.constants.CoreReturnMessage;
-import com.elitehomes.core.exceptions.BusinessException;
+import com.elitehomes.core.exception.BusinessException;
 import com.elitehomes.core.utils.PasswordUtils;
 import com.elitehomes.core.utils.ValidationUtils;
 import com.elitehomes.domain.entity.User;
@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
 		}
 
 		if(!ValidationUtils.isValidEmail(email)) {
-			throw new BusinessException(ReturnMessage.getMessageWithField(CoreReturnMessage.INVALID_ARGUMENT, "[email]"));
+			throw new BusinessException(ReturnMessage.getMessageWithField(CoreReturnMessage.INVALID_ARGUMENT, "email"));
 		}
 
 		if(StringUtils.isBlank(nome)) {
-			throw new BusinessException(ReturnMessage.getMessageWithField(CoreReturnMessage.NOT_NULL_MESSAGE, "[name]"));
+			throw new BusinessException(ReturnMessage.getMessageWithField(CoreReturnMessage.NOT_NULL_MESSAGE, "name"));
 		}
 	}
 

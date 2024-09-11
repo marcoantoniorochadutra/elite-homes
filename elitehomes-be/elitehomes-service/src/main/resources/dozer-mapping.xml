@@ -9,7 +9,7 @@
 		<custom-converters>
 			<converter type="com.elitehomes.service.converter.JpaSelectableConverter">
 				<class-a>com.elitehomes.core.entity.base.Selectable</class-a>
-				<class-b>com.elitehomes.model.base.SelectableDto</class-b>
+				<class-b>com.elitehomes.core.entity.base.SelectableDto</class-b>
 			</converter>
 
 		</custom-converters>
@@ -17,7 +17,7 @@
 	</configuration>
 
 	<mapping>
-		<class-a>com.elitehomes.model.base.ExcludedFieldDto</class-a>
+		<class-a>com.elitehomes.core.entity.base.ExcludedFieldDto</class-a>
 		<class-b>com.elitehomes.domain.base.EntityLifeCycle</class-b>
 		<field-exclude type="one-way">
 			<a>id</a>

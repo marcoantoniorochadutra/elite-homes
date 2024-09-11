@@ -1,19 +1,21 @@
 package com.elitehomes.view.search;
 
 
+import com.elitehomes.core.model.result.PropertyResultDto;
 import com.elitehomes.view.base.MainLayout;
 import com.elitehomes.view.client.PropertyClient;
 import com.elitehomes.view.components.builder.ButtonBuilder;
+import com.elitehomes.view.components.builder.ComboBuilder;
+import com.elitehomes.view.components.builder.IntegerFieldBuilder;
 import com.elitehomes.view.components.builder.LayoutBuilder;
-import com.elitehomes.view.components.ref.ButtonType;
+import com.elitehomes.view.components.builder.TextBuilderBuilder;
+import com.elitehomes.view.components.ref.ComponentType;
 import com.elitehomes.view.entity.LoginDto;
-import com.elitehomes.view.entity.PropertyResultDto;
 import com.elitehomes.view.entity.ref.PropertyGoal;
-import com.infraleap.animatecss.Animated;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.ItemLabelGenerator;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -22,7 +24,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -43,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,12 +86,19 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setHeightFull()
                 .buildVertical();
 
+        ItemLabelGenerator<PropertyGoal> generator = PropertyGoal::getValue;
+        goalCombo = ComboBuilder.builder(PropertyGoal.class)
+                .setTitle("Finalidade")
+                .setWidthFull(true)
+                .setItems(Arrays.stream(PropertyGoal.values()).toList())
+                .setItemLabel(generator)
+                .build();
 
-        goalCombo = new ComboBox<>();
-        goalCombo.setLabel("Finalidade");
-        goalCombo.setItems(PropertyGoal.values());
-        goalCombo.setItemLabelGenerator(PropertyGoal::getValue);
-        goalCombo.setWidthFull();
+
+        TextField a = TextBuilderBuilder.builder().setLabel("aa").build();
+
+        IntegerField f = IntegerFieldBuilder.builder()
+                .build();
 
         IntegerField bathroomCount = createIntegerField("Banheiros");
         IntegerField bedroomCount = createIntegerField("Quartos");
@@ -103,7 +112,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .buildVertical();
 
         Button buscar = ButtonBuilder.builder()
-                .setType(ButtonType.PRIMARY)
+                .setType(ComponentType.PRIMARY)
                 .setWidthFull(true)
                 .setText("Buscar")
                 .build();
@@ -191,12 +200,13 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     }
 
     private IntegerField createIntegerField(String title) {
-        IntegerField bathroomCount = new IntegerField(title);
-        bathroomCount.setMin(0);
-        bathroomCount.setPlaceholder("0");
-        bathroomCount.setWidthFull();
-        bathroomCount.setStepButtonsVisible(true);
-        return bathroomCount;
+        return IntegerFieldBuilder.builder()
+                .setMin(0)
+                .setLabel(title)
+                .setPlaceholder("0")
+                .setWidthFull(true)
+                .setStepButton(true)
+                .build();
     }
 
     private FlexLayout createValueRange() {
@@ -233,17 +243,17 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         textField.setTooltipText("Utilizado para buscar imóveis com base no seu endereço ou título");
 
         Button table = ButtonBuilder.builder()
-                .setType(ButtonType.PRIMARY)
+                .setType(ComponentType.PRIMARY)
                 .setIcon(LineAwesomeIcon.TH_SOLID.create())
                 .build();
 
         Button tableLarge = ButtonBuilder.builder()
-                .setType(ButtonType.PRIMARY)
+                .setType(ComponentType.PRIMARY)
                 .setIcon(LineAwesomeIcon.TH_LARGE_SOLID.create())
                 .build();
 
         Button tableList = ButtonBuilder.builder()
-                .setType(ButtonType.PRIMARY)
+                .setType(ComponentType.PRIMARY)
                 .setIcon(LineAwesomeIcon.LIST_SOLID.create())
                 .build();
 

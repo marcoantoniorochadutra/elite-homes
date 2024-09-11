@@ -1,8 +1,6 @@
 package com.elitehomes.web.endpoint;
 
-import com.elitehomes.core.auth.Authentication;
-import com.elitehomes.core.auth.UserType;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.elitehomes.service.ReferenceService;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;

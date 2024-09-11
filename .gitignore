@@ -6,6 +6,8 @@
 **/src/main/frontend/generated
 **/frontend/generated/
 **/vite.generated.ts
+**mvnw
+**mvnw.cmd
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.elitehomes</groupId>
-        <artifactId>elitehomes</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>elitehomes-be</artifactId>
+        <version>0.0.01</version>
     </parent>
 
     <artifactId>elitehomes-domain</artifactId>
@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.elitehomes</groupId>
-            <artifactId>elitehomes-core</artifactId>
+            <artifactId>elitehomes-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 

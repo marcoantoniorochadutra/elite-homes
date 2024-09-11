@@ -2,17 +2,18 @@ package com.elitehomes.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
+
 @Setter
 @Getter
-@Builder(setterPrefix = "with")
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(setterPrefix = "with")
 public class ContactDto {
 	private String email;
 	private String phone;

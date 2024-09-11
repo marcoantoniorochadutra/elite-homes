@@ -1,7 +1,7 @@
 package com.elitehomes.service.converter;
 
 import com.elitehomes.core.entity.base.Selectable;
-import com.elitehomes.model.base.SelectableDto;
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.github.dozermapper.core.CustomConverter;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
