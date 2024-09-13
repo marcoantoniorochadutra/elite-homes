@@ -10,7 +10,7 @@ public interface ReferenceService {
 
     List<SelectableDto> listPropertyGroup();
 
-    List<SelectableDto> listPropertyType();
+    List<SelectableDto> listPropertyType(String group);
 
 
 }

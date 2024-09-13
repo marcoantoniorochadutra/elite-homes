@@ -8,7 +8,7 @@ html {
     --ck-color-base-border: var(--lumo-transparent) !important;
     --ck-color-button-default-disabled-background: var(--lumo-base-color) !important;
     --ck-color-base-background: hsl(0, 0%, 100%) !important;
-    --lumo-secondary-text-color: white !important;
+    --lumo-secondary-text-color: #ededed !important;
 
     --bg-gr-light-to-dark: linear-gradient(-45deg, #232323 5%, #363636),
                            linear-gradient(135deg, #252525 25%, #4E4C4C 95%);
@@ -64,12 +64,12 @@ vaadin-big-decimal-field {
     --vaadin-field-default-width: 100%;
 }
 
-vaadin-combo-box::part(input-field), vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-field) {
+vaadin-combo-box::part(input-field), vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-field), vaadin-number-field::part(input-field) {
     background-color: var(--lumo-contrast-5pct);
 
 }
 
-vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-field) {
+vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-field), vaadin-number-field::part(input-field) {
     width: 100% !important;
 }
 

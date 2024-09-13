@@ -4,20 +4,24 @@ package com.elitehomes.domain.ref;
 import java.util.Arrays;
 
 import com.elitehomes.core.entity.base.Selectable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public enum PropertyType implements Selectable {
 
     RESIDENTIAL(PropertyGroup.RESIDENTIAL, 0, "Residential"),
     APARTMENT(PropertyGroup.RESIDENTIAL, 0, "Apartment"),
-    HOUSE(PropertyGroup.RESIDENTIAL, 0, ""),
-    CONDOMINIUM(PropertyGroup.RESIDENTIAL, 0, ""),
-    FARM_HOUSE(PropertyGroup.RESIDENTIAL, 0, ""),
-    ROOF(PropertyGroup.RESIDENTIAL, 0, ""),
-    DUPLEX(PropertyGroup.RESIDENTIAL, 0, ""),
-    STUDIO(PropertyGroup.RESIDENTIAL, 0, ""),
-    KITNET(PropertyGroup.RESIDENTIAL, 0, ""),
-    LAND(PropertyGroup.RESIDENTIAL, 0, ""),
-    LOFT(PropertyGroup.RESIDENTIAL, 0, ""),
+    HOUSE(PropertyGroup.RESIDENTIAL, 0, "House"),
+    CONDOMINIUM(PropertyGroup.RESIDENTIAL, 0, "Condominium"),
+    FARM_HOUSE(PropertyGroup.RESIDENTIAL, 0, "Farm House"),
+    ROOF(PropertyGroup.RESIDENTIAL, 0, "Rooftop"),
+    DUPLEX(PropertyGroup.RESIDENTIAL, 0, "Duplex"),
+    STUDIO(PropertyGroup.RESIDENTIAL, 0, "Studio"),
+    KITNET(PropertyGroup.RESIDENTIAL, 0, "Kitnet"),
+    LAND(PropertyGroup.RESIDENTIAL, 0, "Land"),
+    LOFT(PropertyGroup.RESIDENTIAL, 0, "Loft"),
 
     STORAGE(PropertyGroup.INDUSTRIAL, 1, "Storage"),
     SHED(PropertyGroup.INDUSTRIAL, 1, "Shed"),
@@ -37,15 +41,10 @@ public enum PropertyType implements Selectable {
     FARMSTEAD(PropertyGroup.RURAL, 3, "Farmstead");
 
 
-    private final Integer ordinal;
     private final PropertyGroup propertyGroup;
+    private final Integer ordinal;
     private final String value;
 
-    PropertyType(PropertyGroup propertyGroup, Integer ordinal, String value) {
-        this.ordinal = ordinal;
-        this.propertyGroup = propertyGroup;
-        this.value = value;
-    }
 
 	public static PropertyType fromStr(String value) {
 		return Arrays.stream(PropertyType.values())

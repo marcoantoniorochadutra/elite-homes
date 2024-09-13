@@ -5,9 +5,11 @@ import com.elitehomes.service.ReferenceService;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -30,16 +32,16 @@ public class ReferenceController {
     }
 
     @GET
-    @Path("/property")
+    @Path("/group")
     @Produces({MediaType.APPLICATION_JSON})
     public List<SelectableDto> listPropertyGroup() {
         return referenceService.listPropertyGroup();
     }
 
     @GET
-    @Path("/type")
+    @Path("/type/{group}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<SelectableDto> listPropertyType() {
-        return referenceService.listPropertyType();
+    public List<SelectableDto> listPropertyType(@PathParam("group") String group) {
+        return referenceService.listPropertyType(group);
     }
 }

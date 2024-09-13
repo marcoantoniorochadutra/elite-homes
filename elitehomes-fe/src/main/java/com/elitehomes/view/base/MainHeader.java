@@ -5,12 +5,15 @@ import com.elitehomes.view.components.builder.LayoutBuilder;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import org.vaadin.lineawesome.LineAwesomeIcon;
+
+import java.util.Locale;
 
 
 public class MainHeader extends Composite<HorizontalLayout>  {
@@ -30,14 +33,21 @@ public class MainHeader extends Composite<HorizontalLayout>  {
         Button btnVen = ButtonBuilder.builder().setText("Vendas").build();
         Button btnLan = ButtonBuilder.builder().setText("Lançamentos").build();
 
+
+        ComboBox<Locale> cb = new ComboBox<>();
+        cb.setItems(Locale.of("EN", "US"), Locale.of("PT", "BR"));
+        cb.setValue(Locale.of("PT", "BR"));
+        cb.setPrefixComponent(getIcon(LineAwesomeIcon.GLOBE_SOLID));
+        cb.setItemLabelGenerator(Locale::getDisplayCountry);
+
         HorizontalLayout divisor = LayoutBuilder.builder()
                 .setClassName("divisor")
                 .buildHorizontal();
 
         HorizontalLayout rightLayout = LayoutBuilder.builder()
                 .setPadding(true)
-                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, divisor, menuBar)
-                .setComponents(btnLoc, btnVen, btnLan, divisor, menuBar, divisor, menuBar)
+                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, cb,divisor, menuBar)
+                .setComponents(btnLoc, btnVen, btnLan, cb, divisor, menuBar, divisor, menuBar)
                 .buildHorizontal();
 
         getContent().add(leftLayout, rightLayout);

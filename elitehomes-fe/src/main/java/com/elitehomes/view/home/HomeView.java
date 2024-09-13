@@ -2,7 +2,6 @@ package com.elitehomes.view.home;
 
 import com.elitehomes.view.base.MainLayout;
 import com.elitehomes.view.components.builder.LayoutBuilder;
-import com.elitehomes.view.entity.ref.PropertyGoal;
 import com.elitehomes.view.search.SearchView;
 import com.flowingcode.vaadin.addons.carousel.Carousel;
 import com.flowingcode.vaadin.addons.carousel.Slide;
@@ -39,7 +38,7 @@ import java.util.Map;
 public class HomeView extends Composite<VerticalLayout> implements AfterNavigationObserver {
 
 	private ComboBox<String> ten;
-	private ComboBox<PropertyGoal> goalCombo;
+	private ComboBox<String> goalCombo;
 
 	public HomeView() {
         getContent().setPadding(false);
@@ -63,7 +62,7 @@ public class HomeView extends Composite<VerticalLayout> implements AfterNavigati
 		btn.addClickListener(event -> {
 
 			Map<String, String> query = new HashMap<>();
-			query.put("goal", goalCombo.getValue().name());
+			query.put("goal", goalCombo.getValue());
 
 			Map<String, String> path = new HashMap<>();
 			path.put("rs", ten.getValue());
@@ -74,9 +73,8 @@ public class HomeView extends Composite<VerticalLayout> implements AfterNavigati
 		ten.setItems(List.of("elite_homes_root", "eh_cl1", "eh_cliente"));
 
 		goalCombo = new ComboBox<>();
-		goalCombo.setItems(PropertyGoal.values());
-		goalCombo.setValue(PropertyGoal.RENT);
-		goalCombo.setItemLabelGenerator(PropertyGoal::getValue);
+		goalCombo.setItems(List.of("rent", "sale"));
+		goalCombo.setValue("rent");
 
 		ComboBox<String> cb2 = new ComboBox<>();
 		ComboBox<String> cb3 = new ComboBox<>();

@@ -1,20 +1,18 @@
 package com.elitehomes.view.search;
 
 
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.elitehomes.core.model.result.PropertyResultDto;
 import com.elitehomes.view.base.MainLayout;
 import com.elitehomes.view.client.PropertyClient;
 import com.elitehomes.view.components.builder.ButtonBuilder;
 import com.elitehomes.view.components.builder.ComboBuilder;
-import com.elitehomes.view.components.builder.IntegerFieldBuilder;
+import com.elitehomes.view.components.builder.NumberFieldBuilder;
 import com.elitehomes.view.components.builder.LayoutBuilder;
-import com.elitehomes.view.components.builder.TextBuilderBuilder;
 import com.elitehomes.view.components.ref.ComponentType;
 import com.elitehomes.view.entity.LoginDto;
-import com.elitehomes.view.entity.ref.PropertyGoal;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.ItemLabelGenerator;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -34,6 +32,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.shared.Tooltip;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -44,7 +43,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,14 +55,34 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
     private final PropertyClient propertyClient;
 
-    private ComboBox<PropertyGoal> goalCombo;
     private List<PropertyResultDto> properties;
+    private List<SelectableDto> goalList;
+    private List<SelectableDto> groupList;
+    private List<SelectableDto> typeList;
+
+    private ComboBox<SelectableDto> goalCombo;
+    private ComboBox<SelectableDto> groupCombo;
+    private ComboBox<SelectableDto> typeCombo;
+    private IntegerField bathroomCount;
+    private IntegerField bedroomCount;
+    private IntegerField parkingSpaces;
+
     private VerticalLayout propertiesList;
     private VerticalLayout locFilter;
 
     @Autowired
     public SearchView(PropertyClient propertyClient) {
         this.propertyClient = propertyClient;
+        populateComboItems();
+        createLayout();
+    }
+
+    private void populateComboItems() {
+        goalList = propertyClient.searchGoal();
+        groupList = propertyClient.searchGroup();
+    }
+
+    private void createLayout() {
         getContent().setClassName("layout-inner-shadow");
 
         VerticalLayout property = createPropertySection();
@@ -80,35 +99,27 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     }
 
     private VerticalLayout createFilterSection() {
-        VerticalLayout filterWrapper = LayoutBuilder.builder()
-                .setClassName("bg-border-nh")
-                .setWidth("25%")
-                .setHeightFull()
-                .buildVertical();
 
-        ItemLabelGenerator<PropertyGoal> generator = PropertyGoal::getValue;
-        goalCombo = ComboBuilder.builder(PropertyGoal.class)
+        goalCombo = ComboBuilder.builder()
                 .setTitle("Finalidade")
-                .setWidthFull(true)
-                .setItems(Arrays.stream(PropertyGoal.values()).toList())
-                .setItemLabel(generator)
-                .build();
+                .setWidthFull()
+                .setItems(goalList)
+                .buildSelectable();
 
-
-        TextField a = TextBuilderBuilder.builder().setLabel("aa").build();
-
-        IntegerField f = IntegerFieldBuilder.builder()
-                .build();
-
-        IntegerField bathroomCount = createIntegerField("Banheiros");
-        IntegerField bedroomCount = createIntegerField("Quartos");
-        IntegerField parkingSpaces = createIntegerField("Vagas");
-
+        bathroomCount = createIntegerField("Banheiros");
+        bedroomCount = createIntegerField("Quartos");
+        parkingSpaces = createIntegerField("Vagas");
 
         VerticalLayout filterLayout = LayoutBuilder.builder()
                 .setWidthFull()
                 .setHeightFull()
-                .setComponents(goalCombo, createValueRange(), createLocationFilter(), createTypeFilter(), bathroomCount, bedroomCount, parkingSpaces)
+                .setComponents(goalCombo,
+                        createValueRange(),
+                        createLocationFilter(),
+                        createTypeFilter(),
+                        bathroomCount,
+                        bedroomCount,
+                        parkingSpaces)
                 .buildVertical();
 
         Button buscar = ButtonBuilder.builder()
@@ -117,40 +128,54 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setText("Buscar")
                 .build();
 
-        filterWrapper.add(filterLayout, buscar);
-        return filterWrapper;
+        return LayoutBuilder.builder()
+                .setClassName("bg-border-nh")
+                .setWidth("25%")
+                .setComponents(filterLayout, buscar)
+                .setHeightFull()
+                .buildVertical();
     }
 
     private VerticalLayout createTypeFilter() {
-        ComboBox<String> grupo = new ComboBox<>("Tipo de propriedade");
-        grupo.setPlaceholder("Grupo de propriedades");
-        grupo.setWidthFull();
-        grupo.setItems(List.of("Residential", "Industrial"));
+        groupCombo = ComboBuilder.builder()
+                .setTitle("Tipo de properiedade")
+                .setPlaceholder("Grupo de propriedades")
+                .setWidthFull()
+                .setItems(groupList)
+                .buildSelectable();
 
-        ComboBox<String> type = new ComboBox<>();
-        type.setClassName("eh-hidden");
-        type.setWidthFull();
-        type.setPlaceholder("Tipo de propriedade");
-        type.setEnabled(false);
-        type.setItems(List.of("", "RESIDENTIAL", "CONDOMINIUM", "STUDIO"));
+        typeCombo = ComboBuilder.builder()
+                .setClassName("eh-hidden")
+                .setWidthFull()
+                .setPlaceholder("Tipo de propriedade")
+                .setEnabled(false)
+                .buildSelectable();
 
-        grupo.addValueChangeListener(event -> {
-            type.setEnabled(true);
-            grupo.setEnabled(false);
+
+        groupCombo.addValueChangeListener(event -> {
+            if (Objects.nonNull(event.getValue())) {
+                typeList = propertyClient.searchType(event.getValue().getKey());
+                List<SelectableDto> list = new ArrayList<>();
+                list.add(new SelectableDto("RETURN", "Return"));
+                list.addAll(typeList);
+
+                typeCombo.setItems(list);
+                typeCombo.setEnabled(true);
+                groupCombo.setEnabled(false);
+            }
         });
 
-        type.addValueChangeListener(event -> {
-            if(StringUtils.isBlank(event.getValue())) {
-                grupo.setValue(null);
-                grupo.setEnabled(true);
-                type.setEnabled(false);
+        typeCombo.addValueChangeListener(event -> {
+            if(Objects.isNull(event.getValue()) || event.getValue().getKey().equals("RETURN")) {
+                groupCombo.setEnabled(true);
+                typeCombo.setEnabled(false);
             }
         });
 
         locFilter = LayoutBuilder.builder()
                 .setSpacing(false)
                 .setPadding(false)
-                .setComponents(grupo, type)
+                .setComponents(groupCombo, typeCombo)
                 .buildVertical();
 
         return LayoutBuilder.builder()
@@ -200,13 +225,13 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     }
 
     private IntegerField createIntegerField(String title) {
-        return IntegerFieldBuilder.builder()
+        return NumberFieldBuilder.builder()
                 .setMin(0)
                 .setLabel(title)
                 .setPlaceholder("0")
                 .setWidthFull(true)
                 .setStepButton(true)
-                .build();
+                .buildInt();
     }
 
     private FlexLayout createValueRange() {
@@ -326,7 +351,6 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
         String path = event.getRouteParameters().get("rs").orElse(null);
         String goal = event.getLocation().getQueryParameters().getParameters("goal").getFirst();
-        goalCombo.setValue(PropertyGoal.fromStr(goal));
         if(Objects.isNull(path)) {
             // TODO Redirect to blank page
         } else {
@@ -337,14 +361,4 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         }
     }
 
-    private void populateCards() {
-        if(Objects.nonNull(properties)) {
-            createPropertySection();
-            properties.forEach(item -> {
-                VerticalLayout s = createCard(item);
-                getContent().add(s);
-                propertiesList.add(s);
-            });
-        }
-    }
 }

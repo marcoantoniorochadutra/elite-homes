@@ -20,12 +20,26 @@ public class RestHelper {
 
     protected ResponseEntity<String> get(String URL, LoginDto login) {
         try {
-            ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, getHeader(login), String.class);
-            return response;
+            return restTemplate.exchange(URL, HttpMethod.GET, getHeader(login), String.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("TODO remove this exception");
         }
+    }
+
+    protected ResponseEntity<String> get(String URL) {
+        try {
+            return restTemplate.exchange(URL, HttpMethod.GET, getHeaderWithoutLogin(), String.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("TODO remove this exception");
+        }
+    }
+
+    private HttpEntity<?> getHeaderWithoutLogin() {
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(requestHeaders);
     }
 
     private HttpEntity<?> getHeader(LoginDto login) {

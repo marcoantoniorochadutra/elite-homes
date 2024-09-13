@@ -27,8 +27,12 @@ public class ReferenceServiceImpl implements ReferenceService {
     }
 
     @Override
-    public List<SelectableDto> listPropertyType() {
-        return getEnumValueAsSelectableDto(PropertyType.class);
+    public List<SelectableDto> listPropertyType(String group) {
+        return Arrays.stream(PropertyType.values())
+                .filter(propertyType -> propertyType.getPropertyGroup().name().equalsIgnoreCase(group))
+                .map(item -> new SelectableDto(item.getKey(), item.getValue()))
+                .sorted(Comparator.comparing(SelectableDto::getValue))
+                .collect(Collectors.toList());
     }
 
 
