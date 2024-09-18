@@ -107,12 +107,7 @@ vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-fi
 }
 
 .bg-border-nh {
-    height: fit-content;
-}
-
-.bg-border-nh, .prop-card {
     --lumo-header-text-color: white;
-    padding: 5px;
 
     transition: .2s;
     transition-timing-function: ease-in-out;
@@ -126,8 +121,21 @@ vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-fi
     background-clip: padding-box, border-box;
 }
 
-.bg-border-nh {
-    height: fit-content !important;
+.prop-card {
+    --lumo-header-text-color: white;
+    padding: 5px;
+
+    margin-bottom: var(--lumo-space-l);
+    transition: .2s;
+    transition-timing-function: ease-in-out;
+
+    border-radius: 10px;
+    border: 2.2px solid transparent;
+
+    background: linear-gradient(-45deg, #363636 5%, #232323) var(--x, 0)/ 200%,
+                linear-gradient(155deg, #4E4C4C 5%, rgba(35,35,35,1) 20%) var(--x, 0)/ 200%;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
 .prop-card:hover {

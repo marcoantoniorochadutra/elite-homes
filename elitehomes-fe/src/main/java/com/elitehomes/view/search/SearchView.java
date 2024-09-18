@@ -7,8 +7,8 @@ import com.elitehomes.view.base.MainLayout;
 import com.elitehomes.view.client.PropertyClient;
 import com.elitehomes.view.components.builder.ButtonBuilder;
 import com.elitehomes.view.components.builder.ComboBuilder;
-import com.elitehomes.view.components.builder.NumberFieldBuilder;
 import com.elitehomes.view.components.builder.LayoutBuilder;
+import com.elitehomes.view.components.builder.NumberFieldBuilder;
 import com.elitehomes.view.components.ref.ComponentType;
 import com.elitehomes.view.entity.LoginDto;
 import com.vaadin.flow.component.Component;
@@ -18,13 +18,14 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -32,8 +33,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.shared.Tooltip;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -85,20 +86,102 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     private void createLayout() {
         getContent().setClassName("layout-inner-shadow");
 
-        VerticalLayout property = createPropertySection();
+        VerticalLayout items = createPropertySection();
         VerticalLayout filter = createFilterSection();
+
+        VerticalLayout footer = LayoutBuilder.builder()
+                .setComponents(ButtonBuilder.builder().setText("TEXT").build())
+                .buildVertical();
 
         HorizontalLayout main = LayoutBuilder.builder()
                 .setWidthFull()
                 .setHeightFull()
-                .setComponents(filter, property)
+                .setComponents(filter, items)
                 .buildHorizontal();
 
-        getContent().add(main);
+        getContent().add(main, footer);
         getContent().setHeightFull();
     }
 
+    private VerticalLayout createPropertySection() {
+        HorizontalLayout tools = itemTools();
+
+        FormLayout itemLayout = new FormLayout();
+        itemLayout.setWidthFull();
+        itemLayout.setResponsiveSteps(
+                new ResponsiveStep("100px", 1),
+                new ResponsiveStep("100px", 2),
+                new ResponsiveStep("100px", 3));
+
+        itemLayout.add(createCard(), createCard(), createCard(),
+                createCard(), createCard(), createCard(),
+                createCard(), createCard(), createCard(),
+                createCard(), createCard(), createCard());
+
+
+        return LayoutBuilder.builder()
+                .setComponents(tools, itemLayout)
+                .buildVertical();
+    }
+
+    private VerticalLayout createCard() {
+        Image img = new Image("https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80", "Image");
+        img.setWidthFull();
+
+        H3 title = new H3("item.getTitle()");
+        H6 descriptionn = new H6(StringUtils.abbreviate("item.getDescription()", 150));
+
+        HorizontalLayout bedroom = createInfo(LineAwesomeIcon.BED_SOLID, 1, "Quartos");
+        HorizontalLayout bathroom = createInfo(LineAwesomeIcon.TOILET_SOLID, 2, "Banheiros");
+        HorizontalLayout suite = createInfo(LineAwesomeIcon.BATH_SOLID, 3, "Suítes");
+        HorizontalLayout parking = createInfo(LineAwesomeIcon.WAREHOUSE_SOLID, 4, "Vagas");
+
+        HorizontalLayout info = LayoutBuilder.builder()
+                .setWidthFull()
+                .setComponents(bedroom, bathroom, suite, parking)
+                .setAlignment(FlexComponent.Alignment.CENTER, bedroom, bathroom, suite, parking)
+                .buildHorizontal();
+
+
+        info.getStyle().set("font-size", "17px");
+        return LayoutBuilder.builder()
+                .setWidthFull()
+                .setComponents(img, title, descriptionn, info)
+                .setAlignment(FlexComponent.Alignment.CENTER, img)
+                .setClassName("prop-card")
+                .buildVertical();
+    }
+
+    private HorizontalLayout itemTools() {
+        TextField textField = new TextField();
+        textField.setPlaceholder("Pesquisa Direta");
+        textField.setTooltipText("Utilizado para buscar imóveis com base no seu endereço ou título");
+
+        Button table = ButtonBuilder.builder()
+                .setType(ComponentType.PRIMARY)
+                .setIcon(LineAwesomeIcon.TH_SOLID.create())
+                .build();
+
+        Button tableLarge = ButtonBuilder.builder()
+                .setType(ComponentType.PRIMARY)
+                .setIcon(LineAwesomeIcon.TH_LARGE_SOLID.create())
+                .build();
+
+        Button tableList = ButtonBuilder.builder()
+                .setType(ComponentType.PRIMARY)
+                .setIcon(LineAwesomeIcon.LIST_SOLID.create())
+                .build();
+
+        HorizontalLayout tools = LayoutBuilder.builder()
+                .setWidthFull()
+                .setJustify(JustifyContentMode.END)
+                .setComponents(textField, table, tableLarge, tableList)
+                .buildHorizontal();
+        return tools;
+    }
+
     private VerticalLayout createFilterSection() {
+
 
         goalCombo = ComboBuilder.builder()
                 .setTitle("Finalidade")
@@ -110,17 +193,6 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         bedroomCount = createIntegerField("Quartos");
         parkingSpaces = createIntegerField("Vagas");
 
-        VerticalLayout filterLayout = LayoutBuilder.builder()
-                .setWidthFull()
-                .setHeightFull()
-                .setComponents(goalCombo,
-                        createValueRange(),
-                        createLocationFilter(),
-                        createTypeFilter(),
-                        bathroomCount,
-                        bedroomCount,
-                        parkingSpaces)
-                .buildVertical();
 
         Button buscar = ButtonBuilder.builder()
                 .setType(ComponentType.PRIMARY)
@@ -128,10 +200,25 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setText("Buscar")
                 .build();
 
-        return LayoutBuilder.builder()
+
+        VerticalLayout filterWrapper = LayoutBuilder.builder()
+                .setComponents(goalCombo,
+                        createValueRange(),
+                        createLocationFilter(),
+                        createTypeFilter(),
+                        bathroomCount,
+                        bedroomCount,
+                        parkingSpaces,
+                        buscar)
                 .setClassName("bg-border-nh")
-                .setWidth("25%")
-                .setComponents(filterLayout, buscar)
+                .setWidthFull()
+                .setHeight("fit-content")
+                .buildVertical();
+
+        return LayoutBuilder.builder()
+                .setClassName()
+                .setComponents(filterWrapper)
+                .setWidth("30%")
                 .setHeightFull()
                 .buildVertical();
     }
@@ -150,6 +237,20 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setPlaceholder("Tipo de propriedade")
                 .setEnabled(false)
                 .buildSelectable();
+        typeCombo.setRenderer(new ComponentRenderer<>(country -> {
+            Div div = new Div();
+
+            if(country.getKey().equalsIgnoreCase("RETURN")) {
+                HorizontalLayout hl = new HorizontalLayout();
+                hl.add(LineAwesomeIcon.ARROW_LEFT_SOLID.create());
+                hl.add(new Text(country.getValue()));
+                div.add(hl);
+            } else {
+                div.add(new Text(country.getValue()));
+            }
+
+            return div;
+        }));
 
 
         groupCombo.addValueChangeListener(event -> {
@@ -166,7 +267,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         });
 
         typeCombo.addValueChangeListener(event -> {
-            if(Objects.isNull(event.getValue()) || event.getValue().getKey().equals("RETURN")) {
+            if (Objects.isNull(event.getValue()) || event.getValue().getKey().equals("RETURN")) {
                 groupCombo.setEnabled(true);
                 typeCombo.setEnabled(false);
             }
@@ -204,7 +305,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         });
 
         cidade.addValueChangeListener(event -> {
-            if(StringUtils.isBlank(event.getValue())) {
+            if (StringUtils.isBlank(event.getValue())) {
                 estado.setValue(null);
                 estado.setEnabled(true);
                 cidade.setEnabled(false);
@@ -261,77 +362,6 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         return dollarPrefix;
     }
 
-    private VerticalLayout createPropertySection() {
-
-        TextField textField = new TextField();
-        textField.setPlaceholder("Pesquisa Direta");
-        textField.setTooltipText("Utilizado para buscar imóveis com base no seu endereço ou título");
-
-        Button table = ButtonBuilder.builder()
-                .setType(ComponentType.PRIMARY)
-                .setIcon(LineAwesomeIcon.TH_SOLID.create())
-                .build();
-
-        Button tableLarge = ButtonBuilder.builder()
-                .setType(ComponentType.PRIMARY)
-                .setIcon(LineAwesomeIcon.TH_LARGE_SOLID.create())
-                .build();
-
-        Button tableList = ButtonBuilder.builder()
-                .setType(ComponentType.PRIMARY)
-                .setIcon(LineAwesomeIcon.LIST_SOLID.create())
-                .build();
-
-        HorizontalLayout tools = LayoutBuilder.builder()
-                .setWidthFull()
-                .setJustify(JustifyContentMode.END)
-                .setComponents(textField, table, tableLarge, tableList)
-                .buildHorizontal();
-
-        propertiesList = LayoutBuilder.builder()
-                .setClassName("prop-grid")
-                .setHeightFull()
-                .setWidthFull()
-                .buildVertical();
-
-        HorizontalLayout footer = LayoutBuilder.builder()
-                .setComponents(new Button())
-                .buildHorizontal();
-
-
-        return LayoutBuilder.builder()
-                .setComponents(tools, propertiesList, footer)
-                .buildVertical();
-   }
-
-    private VerticalLayout createCard(PropertyResultDto item) {
-        Image img = new Image("https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80", "Image");
-        img.setWidthFull();
-
-        H3 title = new H3(item.getTitle());
-        H6 descriptionn = new H6(StringUtils.abbreviate(item.getDescription(), 150));
-
-        HorizontalLayout bedroom = createInfo(LineAwesomeIcon.BED_SOLID, item.getNumBedroom(), "Quartos");
-        HorizontalLayout bathroom = createInfo(LineAwesomeIcon.TOILET_SOLID, item.getNumBathroom(), "Banheiros");
-        HorizontalLayout suite = createInfo(LineAwesomeIcon.BATH_SOLID, item.getNumSuite(), "Suítes");
-        HorizontalLayout parking = createInfo(LineAwesomeIcon.WAREHOUSE_SOLID, item.getParkingSpaces(), "Vagas");
-
-        HorizontalLayout info = LayoutBuilder.builder()
-                .setWidthFull()
-                .setComponents(bedroom, bathroom, suite, parking)
-                .setAlignment(Alignment.CENTER, bedroom, bathroom, suite, parking)
-                .buildHorizontal();
-
-        info.getStyle().set("font-size", "17px");
-
-        return LayoutBuilder.builder()
-                .setWidthFull()
-                .setComponents(img, title, descriptionn, info)
-                .setAlignment(Alignment.CENTER, img)
-                .setClassName("prop-card")
-                .buildVertical();
-    }
-
     private HorizontalLayout createInfo(LineAwesomeIcon icon, Integer val, String toolText) {
         Component s = icon.create();
         Text value = new Text(val.toString());
@@ -341,7 +371,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .withPosition(Tooltip.TooltipPosition.TOP);
 
         return LayoutBuilder.builder()
-                .setAlignItem(Alignment.CENTER)
+                .setAlignItem(FlexComponent.Alignment.CENTER)
                 .setComponents(s, value)
                 .buildHorizontal();
     }
@@ -351,13 +381,13 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
         String path = event.getRouteParameters().get("rs").orElse(null);
         String goal = event.getLocation().getQueryParameters().getParameters("goal").getFirst();
-        if(Objects.isNull(path)) {
+        if (Objects.isNull(path)) {
             // TODO Redirect to blank page
         } else {
             LoginDto login = new LoginDto();
             login.setRealEstateKey(path);
-            properties =  propertyClient.searchProperties(login);
-            properties.forEach(item -> propertiesList.add(createCard(item)));
+            properties = propertyClient.searchProperties(login);
+
         }
     }
 
