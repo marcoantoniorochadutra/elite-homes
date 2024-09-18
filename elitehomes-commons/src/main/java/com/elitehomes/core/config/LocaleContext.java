@@ -1,21 +1,22 @@
 package com.elitehomes.core.config;
 
+import java.util.List;
 import java.util.Locale;
 
 public class LocaleContext {
 
-    private static final ThreadLocal<Locale> currentLocale = ThreadLocal.withInitial(LocaleContext::defaultLocale);
+    public static final Locale ENGLISH = Locale.of("EN", "US");
+    public static final Locale PORTUGUESE = Locale.of("PT", "BR");
+    public static final List<Locale> AVAILABLE_LOCALE = List.of(ENGLISH, PORTUGUESE);
 
-    public static Locale defaultLocale() {
-        return Locale.of("en", "US");
-    }
+    private static final ThreadLocal<Locale> CURRENT_LOCALE = ThreadLocal.withInitial(() -> ENGLISH);
 
     public static void setCurrentLocale(Locale tenant) {
-        currentLocale.set(tenant);
+        CURRENT_LOCALE.set(tenant);
     }
 
     public static Locale getCurrentLocale() {
-        return currentLocale.get();
+        return CURRENT_LOCALE.get();
     }
 
 }

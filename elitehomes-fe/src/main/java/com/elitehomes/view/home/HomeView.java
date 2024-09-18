@@ -18,6 +18,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -35,7 +37,7 @@ import java.util.Map;
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 @CssImport(value = "./styles/styles.css")
-public class HomeView extends Composite<VerticalLayout> implements AfterNavigationObserver {
+public class HomeView extends Composite<VerticalLayout> implements AfterNavigationObserver, LocaleChangeObserver {
 
 	private ComboBox<String> ten;
 	private ComboBox<String> goalCombo;
@@ -135,5 +137,10 @@ public class HomeView extends Composite<VerticalLayout> implements AfterNavigati
 	@Override
 	public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
 
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event) {
+		System.err.println("abc");
 	}
 }

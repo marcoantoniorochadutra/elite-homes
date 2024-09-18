@@ -80,6 +80,7 @@ public class ComboBuilder {
         if (Objects.nonNull(items)) {
             combo.setItems((Collection<SelectableDto>) items);
         }
+
         return combo;
     }
 

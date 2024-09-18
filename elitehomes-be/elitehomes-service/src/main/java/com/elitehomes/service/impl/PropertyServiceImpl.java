@@ -63,7 +63,6 @@ public class PropertyServiceImpl extends AbstractCrudService<Property, PropertyD
     @Override
     public List<PropertyResultDto> listByCriteria(Map<String, Object> searchCriteria, LoginDto login) {
         List<Property> list = propertyRepository.findAll();
-        System.err.println(list);
 
         List<PropertyResultDto> result = new ArrayList<>();
         list.forEach(property -> {

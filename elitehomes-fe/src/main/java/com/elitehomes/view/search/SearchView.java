@@ -14,6 +14,7 @@ import com.elitehomes.view.entity.LoginDto;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -35,6 +36,8 @@ import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
@@ -46,13 +49,14 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @PageTitle("Search")
 @Route(value = "search/#/:rs", layout = MainLayout.class)
 @Uses(Icon.class)
 @CssImport(value = "./styles/styles.css")
-public class SearchView extends Composite<VerticalLayout> implements BeforeEnterObserver {
+public class SearchView extends Composite<VerticalLayout> implements BeforeEnterObserver, LocaleChangeObserver {
 
     private final PropertyClient propertyClient;
 
@@ -64,9 +68,13 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     private ComboBox<SelectableDto> goalCombo;
     private ComboBox<SelectableDto> groupCombo;
     private ComboBox<SelectableDto> typeCombo;
+    private ComboBox<SelectableDto> estadoCombo;
+    private ComboBox<SelectableDto> cidadeCombo;
     private IntegerField bathroomCount;
     private IntegerField bedroomCount;
     private IntegerField parkingSpaces;
+    private BigDecimalField minVal;
+    private BigDecimalField maxVal;
 
     private VerticalLayout propertiesList;
     private VerticalLayout locFilter;
@@ -74,11 +82,26 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     @Autowired
     public SearchView(PropertyClient propertyClient) {
         this.propertyClient = propertyClient;
-        populateComboItems();
+        getComboItems();
         createLayout();
+        populateLabels();
     }
 
-    private void populateComboItems() {
+    private void populateLabels() {
+        goalCombo.setLabel("A");
+        groupCombo.setLabel("B");
+        typeCombo.setLabel("C");
+        bathroomCount.setLabel("D");
+        bedroomCount.setLabel("E");
+        parkingSpaces.setLabel("F");
+        estadoCombo.setLabel("G");
+        cidadeCombo.setLabel("H");
+        minVal.setLabel("min");
+        maxVal.setLabel("max");
+
+    }
+
+    private void getComboItems() {
         goalList = propertyClient.searchGoal();
         groupList = propertyClient.searchGroup();
     }
@@ -89,17 +112,13 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         VerticalLayout items = createPropertySection();
         VerticalLayout filter = createFilterSection();
 
-        VerticalLayout footer = LayoutBuilder.builder()
-                .setComponents(ButtonBuilder.builder().setText("TEXT").build())
-                .buildVertical();
-
         HorizontalLayout main = LayoutBuilder.builder()
                 .setWidthFull()
                 .setHeightFull()
                 .setComponents(filter, items)
                 .buildHorizontal();
 
-        getContent().add(main, footer);
+        getContent().add(main);
         getContent().setHeightFull();
     }
 
@@ -172,12 +191,11 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setIcon(LineAwesomeIcon.LIST_SOLID.create())
                 .build();
 
-        HorizontalLayout tools = LayoutBuilder.builder()
+        return LayoutBuilder.builder()
                 .setWidthFull()
                 .setJustify(JustifyContentMode.END)
                 .setComponents(textField, table, tableLarge, tableList)
                 .buildHorizontal();
-        return tools;
     }
 
     private VerticalLayout createFilterSection() {
@@ -287,35 +305,45 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     }
 
     private VerticalLayout createLocationFilter() {
-        ComboBox<String> estado = new ComboBox<>("Localização");
-        estado.setPlaceholder("Estado");
-        estado.setWidthFull();
-        estado.setItems(List.of("SC", "SP", "AM"));
+        estadoCombo = new ComboBox<>("Localização");
+        estadoCombo.setPlaceholder("Estado");
+        estadoCombo.setWidthFull();
+        estadoCombo.setItems(List.of(
+                new SelectableDto(""),
+                new SelectableDto("SP", "São Paulo"),
+                new SelectableDto("RJ", "Rio de Janeiro"),
+                new SelectableDto("MG", "Minas Gerais")));
+        estadoCombo.setItemLabelGenerator(SelectableDto::getValue);
 
-        ComboBox<String> cidade = new ComboBox<>();
-        cidade.setClassName("eh-hidden");
-        cidade.setWidthFull();
-        cidade.setPlaceholder("Cidade");
-        cidade.setEnabled(false);
-        cidade.setItems(List.of("", "Tubarão", "Imbituba", "Laguna"));
+        cidadeCombo = new ComboBox<>();
+        cidadeCombo.setClassName("eh-hidden");
+        cidadeCombo.setWidthFull();
+        cidadeCombo.setPlaceholder("Cidade");
+        cidadeCombo.setEnabled(false);
+        cidadeCombo.setItemLabelGenerator(SelectableDto::getValue);
+        cidadeCombo.setItems(List.of(
+                new SelectableDto(""),
+                new SelectableDto("Tubarão", "Tubarão"),
+                new SelectableDto("Imbituba", "Imbituba"),
+                new SelectableDto("Laguna", "Laguna")));
 
-        estado.addValueChangeListener(event -> {
-            cidade.setEnabled(true);
-            estado.setEnabled(false);
+        estadoCombo.addValueChangeListener(e -> {
+            cidadeCombo.setEnabled(true);
+            estadoCombo.setEnabled(false);
         });
 
-        cidade.addValueChangeListener(event -> {
-            if (StringUtils.isBlank(event.getValue())) {
-                estado.setValue(null);
-                estado.setEnabled(true);
-                cidade.setEnabled(false);
+        cidadeCombo.addValueChangeListener(event -> {
+            if (StringUtils.isBlank(event.getValue().getKey())) {
+                estadoCombo.setValue(null);
+                estadoCombo.setEnabled(true);
+                cidadeCombo.setEnabled(false);
             }
         });
 
         locFilter = LayoutBuilder.builder()
                 .setSpacing(false)
                 .setPadding(false)
-                .setComponents(estado, cidade)
+                .setComponents(estadoCombo, cidadeCombo)
                 .buildVertical();
 
         return LayoutBuilder.builder()
@@ -337,12 +365,12 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
     private FlexLayout createValueRange() {
 
-        BigDecimalField minVal = new BigDecimalField("Valor Mínimo");
+        minVal = new BigDecimalField("Valor Mínimo");
         minVal.setPlaceholder("0,00");
         minVal.setWidth("100%");
         minVal.setPrefixComponent(createPrefix());
 
-        BigDecimalField maxVal = new BigDecimalField("Valor Maximo");
+        maxVal = new BigDecimalField("Valor Maximo");
         maxVal.setPlaceholder("0,00");
         maxVal.setWidth("100%");
         maxVal.setPrefixComponent(createPrefix());
@@ -391,4 +419,8 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         }
     }
 
+    @Override
+    public void localeChange(LocaleChangeEvent event) {
+        System.err.println(UI.getCurrent().getLocale());
+    }
 }

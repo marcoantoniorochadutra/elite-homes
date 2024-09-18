@@ -1,6 +1,7 @@
 package com.elitehomes.view.client;
 
 import com.elitehomes.view.entity.LoginDto;
+import com.vaadin.flow.component.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,7 @@ public class RestHelper {
     private HttpEntity<?> getHeaderWithoutLogin() {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setContentLanguage(UI.getCurrent().getSession().getLocale());
         return new HttpEntity<>(requestHeaders);
     }
 
@@ -46,6 +48,7 @@ public class RestHelper {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
         requestHeaders.set("tenant", login.getRealEstateKey());
+        requestHeaders.setContentLanguage(UI.getCurrent().getSession().getLocale());
         return new HttpEntity<>(requestHeaders);
     }
 }

@@ -2,6 +2,7 @@ package com.elitehomes.view.config;
 
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -14,6 +15,7 @@ import java.util.List;
 
 
 @Configuration
+@ComponentScan({"com.elitehomes.view.context"})
 public class AppConfig {
 
     @Bean

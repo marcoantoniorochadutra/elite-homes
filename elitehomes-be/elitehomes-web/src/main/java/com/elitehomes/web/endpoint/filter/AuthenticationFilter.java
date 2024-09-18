@@ -41,12 +41,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 		LoginDto login = (LoginDto) requestContext.getProperty(LoginFactory.LOGIN_PROPERTY);
 		Authentication annotation = getAuthenticationAnnotation(resourceInfo);
-		System.err.println(TenantContext.getCurrentTenant());
 
 		String ten = requestContext.getHeaders().getFirst("tenant");
 		TenantContext.setCurrentTenant(ten);
-		System.err.println(ten);
-
 
 	}
 

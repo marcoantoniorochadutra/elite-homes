@@ -1,12 +1,14 @@
 package com.elitehomes.view.base;
 
+import com.elitehomes.core.config.LocaleContext;
 import com.elitehomes.view.components.builder.ButtonBuilder;
 import com.elitehomes.view.components.builder.LayoutBuilder;
+import com.elitehomes.view.home.HomeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -18,6 +20,8 @@ import java.util.Locale;
 
 public class MainHeader extends Composite<HorizontalLayout>  {
 
+    private ComboBox<Locale> locale;
+
     public MainHeader() {
 
         HorizontalLayout leftLayout = LayoutBuilder.builder()
@@ -27,18 +31,19 @@ public class MainHeader extends Composite<HorizontalLayout>  {
                 .buildHorizontal();
 
         MenuBar menuBar = new MenuBar();
-        menuBar.addItem(buildItem(LineAwesomeIcon.USER_CIRCLE, "Área do Cliente"));
+        menuBar.addItem(buildAreaCliente());
 
         Button btnLoc = ButtonBuilder.builder().setText("Locações").build();
+        btnLoc.addClickListener(event -> UI.getCurrent().navigate(HomeView.class));
         Button btnVen = ButtonBuilder.builder().setText("Vendas").build();
         Button btnLan = ButtonBuilder.builder().setText("Lançamentos").build();
 
-
-        ComboBox<Locale> cb = new ComboBox<>();
-        cb.setItems(Locale.of("EN", "US"), Locale.of("PT", "BR"));
-        cb.setValue(Locale.of("PT", "BR"));
-        cb.setPrefixComponent(getIcon(LineAwesomeIcon.GLOBE_SOLID));
-        cb.setItemLabelGenerator(Locale::getDisplayCountry);
+        locale = new ComboBox<>();
+        locale.setItems(LocaleContext.AVAILABLE_LOCALE);
+        locale.setValue(UI.getCurrent().getSession().getLocale());
+        locale.addValueChangeListener(event -> updateComponents(event.getValue()));
+        locale.setPrefixComponent(getIcon(LineAwesomeIcon.GLOBE_SOLID));
+        locale.setItemLabelGenerator(Locale::getDisplayCountry);
 
         HorizontalLayout divisor = LayoutBuilder.builder()
                 .setClassName("divisor")
@@ -46,8 +51,8 @@ public class MainHeader extends Composite<HorizontalLayout>  {
 
         HorizontalLayout rightLayout = LayoutBuilder.builder()
                 .setPadding(true)
-                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, cb,divisor, menuBar)
-                .setComponents(btnLoc, btnVen, btnLan, cb, divisor, menuBar, divisor, menuBar)
+                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, locale, divisor, menuBar)
+                .setComponents(btnLoc, btnVen, btnLan, locale, divisor, menuBar, divisor, menuBar)
                 .buildHorizontal();
 
         getContent().add(leftLayout, rightLayout);
@@ -57,10 +62,15 @@ public class MainHeader extends Composite<HorizontalLayout>  {
         getContent().setPadding(false);
     }
 
-    private HorizontalLayout buildItem(LineAwesomeIcon icon, String title) {
-        H6 h6 =  new H6(title);
+    private void updateComponents(Locale value) {
+        UI.getCurrent().getSession().setLocale(value);
+
+    }
+
+    private HorizontalLayout buildAreaCliente() {
+        H6 h6 =  new H6("Área do Cliente");
         return LayoutBuilder.builder()
-                .setComponents(icon.create(), h6)
+                .setComponents(LineAwesomeIcon.USER_CIRCLE.create(), h6)
                 .setAlignment(FlexComponent.Alignment.CENTER, h6)
                 .setJustify(FlexComponent.JustifyContentMode.CENTER)
                 .buildHorizontal();
@@ -71,6 +81,7 @@ public class MainHeader extends Composite<HorizontalLayout>  {
     private Component getIcon(LineAwesomeIcon icon) {
         Component s = icon.create();
         s.getStyle().set("color", "white");
+
         return s;
     }
 

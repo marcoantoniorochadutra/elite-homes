@@ -72,7 +72,6 @@ public class DevController {
                 .build();
 
         Property p = propertyRepository.saveAndFlush(prop);
-        System.err.println("Created: " + p);
         return "create";
     }
 }

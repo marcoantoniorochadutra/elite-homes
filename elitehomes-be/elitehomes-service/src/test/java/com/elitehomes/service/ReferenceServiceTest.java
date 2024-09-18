@@ -29,10 +29,10 @@ public class ReferenceServiceTest {
 
     @Test
     public void listPropertyType() {
-        List<SelectableDto> res = referenceService.listPropertyType();
+        List<SelectableDto> res = referenceService.listPropertyType(null);
 
         assertEquals(25, res.size());
-        assertEquals("HOUSE", res.get(0).getKey());
+        assertEquals("APARTMENT", res.get(0).getKey());
     }
 
     @Test
