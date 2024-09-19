@@ -1,4 +1,4 @@
-package com.elitehomes.view.client;
+package com.elitehomes.view.utils;
 
 import com.elitehomes.view.entity.LoginDto;
 import com.vaadin.flow.component.UI;

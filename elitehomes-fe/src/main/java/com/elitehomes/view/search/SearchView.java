@@ -11,6 +11,7 @@ import com.elitehomes.view.components.builder.LayoutBuilder;
 import com.elitehomes.view.components.builder.NumberFieldBuilder;
 import com.elitehomes.view.components.ref.ComponentType;
 import com.elitehomes.view.entity.LoginDto;
+import com.elitehomes.view.utils.TranslationHelper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Text;
@@ -49,6 +50,7 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -88,17 +90,26 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
     }
 
     private void populateLabels() {
-        goalCombo.setLabel("A");
-        groupCombo.setLabel("B");
-        typeCombo.setLabel("C");
-        bathroomCount.setLabel("D");
-        bedroomCount.setLabel("E");
-        parkingSpaces.setLabel("F");
-        estadoCombo.setLabel("G");
-        cidadeCombo.setLabel("H");
-        minVal.setLabel("min");
-        maxVal.setLabel("max");
+        goalCombo.setLabel(TranslationHelper.getMessage("GOAL_TITLE"));
+        goalCombo.setItems(goalList);
 
+        groupCombo.setLabel(TranslationHelper.getMessage("TYPE_GROUP_TITLE"));
+        groupCombo.setPlaceholder(TranslationHelper.getMessage("TYPE_GROUP_PLACE"));
+        groupCombo.setItems(groupList);
+
+        typeCombo.setPlaceholder(TranslationHelper.getMessage("TYPE_PROP_PLACE"));
+
+        bathroomCount.setLabel(TranslationHelper.getMessage("BATHROOM"));
+        bedroomCount.setLabel(TranslationHelper.getMessage("BEDROOM"));
+        parkingSpaces.setLabel(TranslationHelper.getMessage("PARKING"));
+
+        estadoCombo.setLabel(TranslationHelper.getMessage("STATE_TITLE"));
+        estadoCombo.setPlaceholder(TranslationHelper.getMessage("STATE_PLACEHOLDER"));
+
+        cidadeCombo.setPlaceholder(TranslationHelper.getMessage("CITY_PLACEHOLDER"));
+
+        minVal.setLabel(TranslationHelper.getMessage("VAL_MIN"));
+        maxVal.setLabel(TranslationHelper.getMessage("VAL_MAX"));
     }
 
     private void getComboItems() {
@@ -255,6 +266,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setPlaceholder("Tipo de propriedade")
                 .setEnabled(false)
                 .buildSelectable();
+
         typeCombo.setRenderer(new ComponentRenderer<>(country -> {
             Div div = new Div();
 
@@ -309,10 +321,11 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         estadoCombo.setPlaceholder("Estado");
         estadoCombo.setWidthFull();
         estadoCombo.setItems(List.of(
-                new SelectableDto(""),
+                new SelectableDto("", ""),
                 new SelectableDto("SP", "São Paulo"),
                 new SelectableDto("RJ", "Rio de Janeiro"),
                 new SelectableDto("MG", "Minas Gerais")));
+
         estadoCombo.setItemLabelGenerator(SelectableDto::getValue);
 
         cidadeCombo = new ComboBox<>();
@@ -322,7 +335,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         cidadeCombo.setEnabled(false);
         cidadeCombo.setItemLabelGenerator(SelectableDto::getValue);
         cidadeCombo.setItems(List.of(
-                new SelectableDto(""),
+                new SelectableDto("", ""),
                 new SelectableDto("Tubarão", "Tubarão"),
                 new SelectableDto("Imbituba", "Imbituba"),
                 new SelectableDto("Laguna", "Laguna")));
@@ -421,6 +434,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
     @Override
     public void localeChange(LocaleChangeEvent event) {
-        System.err.println(UI.getCurrent().getLocale());
+        getComboItems();
+        populateLabels();
     }
 }
