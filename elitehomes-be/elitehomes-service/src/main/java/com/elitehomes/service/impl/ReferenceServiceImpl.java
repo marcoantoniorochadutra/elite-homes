@@ -33,8 +33,16 @@ public class ReferenceServiceImpl implements ReferenceService {
     @Override
     public List<SelectableDto> listPropertyType(String group) {
         return Arrays.stream(PropertyType.values())
-                .filter(propertyType -> propertyType.getPropertyGroup().name().equalsIgnoreCase(group) || Objects.nonNull(propertyType.getOrdinal()))
-                .map(item -> new SelectableDto(item.getKey(), item.getTranslation(LocaleContext.getCurrentLocale().getLanguage())))
+                .filter(propertyType -> {
+                    System.err.println("Source: " + group);
+                    System.err.println("Analysis " + propertyType.getPropertyGroup().name());
+                    System.err.println(propertyType.getPropertyGroup().name().equalsIgnoreCase(group));
+                    return propertyType.getPropertyGroup().name().equalsIgnoreCase(group);
+                })
+                .map(item -> {
+                    System.err.println("Processed: " + item);
+                    return  new SelectableDto(item.getKey(), item.getTranslation(LocaleContext.getCurrentLocale().getLanguage()));
+                })
                 .sorted(Comparator.comparing(SelectableDto::getValue))
                 .collect(Collectors.toList());
     }

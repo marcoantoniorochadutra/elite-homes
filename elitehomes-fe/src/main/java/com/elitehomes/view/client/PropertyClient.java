@@ -51,6 +51,7 @@ public class PropertyClient extends RestHelper {
     }
 
     public List<SelectableDto> searchType(String group) {
+        System.err.println(group);
         return searchSelectable("type/" + group);
     }
 

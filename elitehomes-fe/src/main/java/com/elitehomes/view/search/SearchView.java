@@ -48,6 +48,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -93,11 +94,16 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         goalCombo.setLabel(TranslationHelper.getMessage("GOAL_TITLE"));
         goalCombo.setItems(goalList);
 
+
         groupCombo.setLabel(TranslationHelper.getMessage("TYPE_GROUP_TITLE"));
         groupCombo.setPlaceholder(TranslationHelper.getMessage("TYPE_GROUP_PLACE"));
         groupCombo.setItems(groupList);
+        groupCombo.setEnabled(true);
+        groupCombo.setValue(null);
 
         typeCombo.setPlaceholder(TranslationHelper.getMessage("TYPE_PROP_PLACE"));
+        typeCombo.setValue(null);
+        typeCombo.setEnabled(false);
 
         bathroomCount.setLabel(TranslationHelper.getMessage("BATHROOM"));
         bedroomCount.setLabel(TranslationHelper.getMessage("BEDROOM"));
@@ -229,6 +235,8 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .setText("Buscar")
                 .build();
 
+        buscar.addClickListener(e -> searchProperties());
+
 
         VerticalLayout filterWrapper = LayoutBuilder.builder()
                 .setComponents(goalCombo,
@@ -286,6 +294,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         groupCombo.addValueChangeListener(event -> {
             if (Objects.nonNull(event.getValue())) {
                 typeList = propertyClient.searchType(event.getValue().getKey());
+                System.err.println("Search: Res " + typeList);
                 List<SelectableDto> list = new ArrayList<>();
                 list.add(new SelectableDto("RETURN", "Return"));
                 list.addAll(typeList);
@@ -417,20 +426,48 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .buildHorizontal();
     }
 
+    private void searchProperties() {
+        SelectableDto goal = goalCombo.getValue();
+        SelectableDto group = groupCombo.getValue();
+        SelectableDto type = typeCombo.getValue();
+
+        BigDecimal min = minVal.getValue();
+        BigDecimal max = maxVal.getValue();
+
+        Integer bathroom = bathroomCount.getValue();
+        Integer bedroom = bedroomCount.getValue();
+        Integer parking =  parkingSpaces.getValue();
+
+    }
+
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-
         String path = event.getRouteParameters().get("rs").orElse(null);
-        String goal = event.getLocation().getQueryParameters().getParameters("goal").getFirst();
-        if (Objects.isNull(path)) {
-            // TODO Redirect to blank page
-        } else {
-            LoginDto login = new LoginDto();
-            login.setRealEstateKey(path);
-            properties = propertyClient.searchProperties(login);
 
+        if (Objects.isNull(path)) {
+            throw new RuntimeException("NÃO SETOU NS");
         }
+
+        String goalStr = event.getLocation()
+                .getQueryParameters()
+                .getParameters("goal")
+                .getFirst();
+
+        SelectableDto goal = goalList.stream()
+                .filter(selectableDto -> selectableDto.getKey().equals(goalStr))
+                .findFirst()
+                .orElse(null);
+
+        if(Objects.nonNull(goal)) {
+            goalCombo.setValue(goal);
+        }
+
+        LoginDto login = new LoginDto();
+        login.setRealEstateKey(path);
+        properties = propertyClient.searchProperties(login);
     }
+
+
 
     @Override
     public void localeChange(LocaleChangeEvent event) {

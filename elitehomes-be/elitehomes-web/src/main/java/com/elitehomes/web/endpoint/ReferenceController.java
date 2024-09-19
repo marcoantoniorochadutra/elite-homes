@@ -41,7 +41,7 @@ public class ReferenceController {
     }
 
     @GET
-    @Path("/type/{group}")
+    @Path("/type/{group}") // TODO CHANGE TO QUERY PARAM
     @Produces({MediaType.APPLICATION_JSON})
     public List<SelectableDto> listPropertyType(@PathParam("group") String group) {
         return referenceService.listPropertyType(group);
