@@ -7,6 +7,7 @@
 
 - [Sobre](#-sobre)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
 
 ## 🔖&nbsp; Sobre
 
@@ -19,6 +20,15 @@ O projeto
 O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 - [Java]()
+
+
+---
+---
+
+## 🏗️ Estrutura do Projeto
+
+O projeto foi desenvolvido utilizando as seguintes tecnologias
+
 
 
 ---
