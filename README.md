@@ -17,7 +17,7 @@ O projeto
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 🚀&nbsp; Tecnologias utilizadas
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
@@ -30,7 +30,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ---
 
-## 🏗️ Estrutura do Projeto
+## 🏗️&nbsp; Estrutura do Projeto
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias
 
