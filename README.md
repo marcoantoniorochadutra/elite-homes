@@ -21,12 +21,12 @@ O projeto
 
 O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- [Maven]
-- [Java]
-- [Spring Boot]
-- [MySQL]
-- [Jersey / Jax-RS]
-- [Vaadin]
+- Maven
+- Java
+- Spring Boot
+- MySQL
+- Jersey / Jax-RS
+- Vaadin
 
 ---
 
