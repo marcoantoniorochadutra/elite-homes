@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Data
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -31,5 +31,9 @@ public class Attachment {
 
     @NotNull
     private String name;
+
+    @NotNull
+    @Column(columnDefinition = "bit")
+    private Boolean principal;
 
 }

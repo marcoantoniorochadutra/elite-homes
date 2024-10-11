@@ -36,10 +36,12 @@ public class PropertyDto implements Versionable, ExcludedFieldDto {
     private SelectableDto goal;
     private SelectableDto type;
 
-    private Double value;
+    private Double price;
 
     private String description;
     private String valueDescription;
+
+
 
     private AddressDto address;
 

@@ -40,18 +40,18 @@ public class RealEstateController {
 
     @PUT
     @Path("{id}")
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
-	public RealEstateDto delete(@Context LoginDto loginDto, @PathParam("id") Long id, RealEstateDto realEstateDto) {
-		return realEstateService.update(id, realEstateDto, loginDto);
-	}
-    
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public RealEstateDto delete(@Context LoginDto loginDto, @PathParam("id") Long id, RealEstateDto realEstateDto) {
+        return realEstateService.update(id, realEstateDto, loginDto);
+    }
+
     @DELETE
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
-	public MessageDto delete(@Context LoginDto loginDto, @PathParam("id") Long id) {
-		return realEstateService.delete(id, loginDto);
+    @Consumes({MediaType.APPLICATION_JSON})
+    public MessageDto delete(@Context LoginDto loginDto, @PathParam("id") Long id) {
+        return realEstateService.delete(id, loginDto);
     }
 
 

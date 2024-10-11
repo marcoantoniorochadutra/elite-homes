@@ -24,6 +24,7 @@ public class MultiTenantConnectionProviderImpl implements MultiTenantConnectionP
                                              @Value("${env.multitenant.db.default}") String defaultDatabase) {
         this.dataSource = dataSource;
         this.defaultDatabase = defaultDatabase;
+        System.err.println("Building: " + defaultDatabase);
         TenantContext.setCurrentTenant(defaultDatabase);
     }
 

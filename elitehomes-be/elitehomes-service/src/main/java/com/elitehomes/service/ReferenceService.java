@@ -1,17 +1,12 @@
 package com.elitehomes.service;
 
-import com.elitehomes.core.auth.LoginDto;
 import com.elitehomes.core.entity.base.SelectableDto;
+import com.elitehomes.domain.ref.AvailableReference;
 
 import java.util.List;
 
 public interface ReferenceService {
 
-    List<SelectableDto> listPropertyGoal();
-
-    List<SelectableDto> listPropertyGroup();
-
-    List<SelectableDto> listPropertyType(String group);
-
+    List<SelectableDto> listReference(AvailableReference reference, String additional);
 
 }

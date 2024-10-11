@@ -4,6 +4,7 @@ import com.elitehomes.core.auth.LoginDto;
 import com.elitehomes.core.auth.LoginOrigin;
 import com.elitehomes.core.utils.PasswordUtils;
 import com.elitehomes.domain.entity.Address;
+import com.elitehomes.domain.entity.City;
 import com.elitehomes.domain.entity.Contact;
 import com.elitehomes.domain.entity.Owner;
 import com.elitehomes.domain.entity.Property;
@@ -12,6 +13,7 @@ import com.elitehomes.domain.entity.User;
 import com.elitehomes.domain.entity.UserDetails;
 import com.elitehomes.domain.ref.PropertyGoal;
 import com.elitehomes.domain.ref.PropertyType;
+import com.elitehomes.domain.repository.CityRepository;
 import com.elitehomes.domain.repository.OwnerRepository;
 import com.elitehomes.domain.repository.PropertyRepository;
 import com.elitehomes.domain.repository.RealEstateRepository;
@@ -41,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AbstractTestSupport extends AbstractTestDbSetup {
 
 	private static final Long DEFAULT_ENTITY_ID = 1L;
-
+	private static final Long DEFAULT_CITY_ID = 4423L;
 	@Autowired
 	protected ObjectMapper objectMapper;
 
@@ -59,6 +61,10 @@ public class AbstractTestSupport extends AbstractTestDbSetup {
 
 	@Autowired
 	protected PropertyRepository propertyRepository;
+
+	@Autowired
+	protected CityRepository cityRepository;
+
 
 	public LoginOrigin generateOrigin() {
 		return new LoginOrigin("192.168.0.0", "PostmanRuntime/7.36.3", "0:0:0:0:0:0:0:1");
@@ -96,11 +102,14 @@ public class AbstractTestSupport extends AbstractTestDbSetup {
 		return ownerRepository.getReferenceById(DEFAULT_ENTITY_ID);
 	}
 
+	protected City defaultCity() {
+		return cityRepository.getReferenceById(DEFAULT_CITY_ID);
+	}
+
 	protected Address defaultAddress() {
 		return Address.builder()
 				.withCountry("Brasil")
-				.withState("Santa Catarina")
-				.withCity("Imbituba")
+				.withCity(defaultCity())
 				.withNeighborhood("Centro")
 				.withStreet("Rua Santos")
 				.withNumber("123")
@@ -143,7 +152,7 @@ public class AbstractTestSupport extends AbstractTestDbSetup {
 				.withGoal(goal)
 				.withType(type)
 				.withOwner(defaultOwner())
-				.withValue(2500.0)
+				.withPrice(2500.0)
 				.withDescription(description)
 				.withTitle("Property " + description)
 				.withValueDescription("value description")

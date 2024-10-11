@@ -23,7 +23,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity(name = "users")
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = "email", name = "uk_user_email"),

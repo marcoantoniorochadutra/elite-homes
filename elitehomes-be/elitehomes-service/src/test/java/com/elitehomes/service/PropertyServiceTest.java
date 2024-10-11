@@ -25,9 +25,7 @@ public class PropertyServiceTest extends AbstractTestSupport {
     @Test
     public void shouldCreateProperty() {
         AddressDto address = AddressDto.builder()
-                .withCountry("Brasil")
-                .withState("Santa Catarina")
-                .withCity("Imbituba")
+                .withCity(new SelectableDto("1"))
                 .withNeighborhood("Centro")
                 .withStreet("Rua Santos")
                 .withNumber("123")
@@ -44,7 +42,7 @@ public class PropertyServiceTest extends AbstractTestSupport {
                 .withGoal(new SelectableDto("RENT"))
                 .withType(new SelectableDto("RESIDENTIAL"))
                 .withOwner(new SelectableDto("1"))
-                .withValue(2500.0)
+                .withPrice(2500.0)
                 .withDescription("description")
                 .withTitle("Property Title")
                 .withValueDescription("value description")
@@ -60,13 +58,13 @@ public class PropertyServiceTest extends AbstractTestSupport {
         assertSelectable("RENT", result.getGoal());
         assertSelectable("RESIDENTIAL", result.getType());
         assertSelectable("1", result.getOwner());
-        assertEquals(2500.0, result.getValue());
+        assertEquals(2500.0, result.getPrice());
         assertEquals("description", result.getDescription());
         assertEquals("value description", result.getValueDescription());
 
         assertEquals(address.getCountry(), result.getAddress().getCountry());
-        assertEquals(address.getState(), result.getAddress().getState());
-        assertEquals(address.getCity(), result.getAddress().getCity());
+        assertEquals("RO", result.getAddress().getState());
+        assertEquals(address.getCity().getKey(), result.getAddress().getCity().getKey());
         assertEquals(address.getNeighborhood(), result.getAddress().getNeighborhood());
         assertEquals(address.getStreet(), result.getAddress().getStreet());
         assertEquals(address.getNumber(), result.getAddress().getNumber());
@@ -82,9 +80,7 @@ public class PropertyServiceTest extends AbstractTestSupport {
         PropertyDto toUpdate = modelMapper.map(property, PropertyDto.class);
 
         AddressDto address = AddressDto.builder()
-                .withCountry("Brasil")
-                .withState("Rio Grande do Sul")
-                .withCity("Gravataí")
+                .withCity(new SelectableDto("4792"))
                 .withNeighborhood("Centro")
                 .withStreet("Rua Dona Aurora")
                 .withNumber("456")
@@ -99,19 +95,19 @@ public class PropertyServiceTest extends AbstractTestSupport {
         toUpdate.setNumBathroom(15);
         toUpdate.setNumSuite(15);
         toUpdate.setNumBathroom(15);
-        toUpdate.setValue(520.0);
+        toUpdate.setPrice(520.0);
 
         PropertyDto result = propertyService.update(property.getId(), toUpdate, loginDefault());
 
         assertEquals(15, result.getNumBathroom());
         assertEquals(15, result.getNumSuite());
         assertEquals(15, result.getNumBathroom());
-        assertEquals(520.0, result.getValue());
+        assertEquals(520.0, result.getPrice());
         assertEquals(property.getId(), result.getId());
 
         assertEquals("Brasil", result.getAddress().getCountry());
-        assertEquals("Rio Grande do Sul", result.getAddress().getState());
-        assertEquals("Gravataí", result.getAddress().getCity());
+        assertEquals("RS", result.getAddress().getState());
+        assertEquals("Gravataí", result.getAddress().getCity().getValue());
         assertEquals("Centro", result.getAddress().getNeighborhood());
         assertEquals("Rua Dona Aurora", result.getAddress().getStreet());
         assertEquals("456", result.getAddress().getNumber());

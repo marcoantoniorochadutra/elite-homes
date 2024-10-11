@@ -28,6 +28,7 @@ import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -175,7 +176,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         HorizontalLayout info = LayoutBuilder.builder()
                 .setWidthFull()
                 .setComponents(bedroom, bathroom, suite, parking)
-                .setAlignment(FlexComponent.Alignment.CENTER, bedroom, bathroom, suite, parking)
+                .setAlignment(Alignment.CENTER, bedroom, bathroom, suite, parking)
                 .buildHorizontal();
 
 
@@ -183,7 +184,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
         return LayoutBuilder.builder()
                 .setWidthFull()
                 .setComponents(img, title, descriptionn, info)
-                .setAlignment(FlexComponent.Alignment.CENTER, img)
+                .setAlignment(Alignment.CENTER, img)
                 .setClassName("prop-card")
                 .buildVertical();
     }
@@ -276,25 +277,27 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .buildSelectable();
 
         typeCombo.setRenderer(new ComponentRenderer<>(country -> {
-            Div div = new Div();
+            VerticalLayout item = LayoutBuilder.builder().setPadding(false).buildVertical();
 
             if(country.getKey().equalsIgnoreCase("RETURN")) {
-                HorizontalLayout hl = new HorizontalLayout();
-                hl.add(LineAwesomeIcon.ARROW_LEFT_SOLID.create());
-                hl.add(new Text(country.getValue()));
-                div.add(hl);
+                HorizontalLayout hl = LayoutBuilder.builder()
+                        .setPadding(false)
+                        .setComponents(LineAwesomeIcon.ARROW_LEFT_SOLID.create(), new Text(country.getValue()))
+                        .setAlignItem(Alignment.CENTER)
+                        .buildHorizontal();
+                item.add(hl);
+
             } else {
-                div.add(new Text(country.getValue()));
+                item.add(new Text(country.getValue()));
             }
 
-            return div;
+            return item;
         }));
 
 
         groupCombo.addValueChangeListener(event -> {
             if (Objects.nonNull(event.getValue())) {
                 typeList = propertyClient.searchType(event.getValue().getKey());
-                System.err.println("Search: Res " + typeList);
                 List<SelectableDto> list = new ArrayList<>();
                 list.add(new SelectableDto("RETURN", "Return"));
                 list.addAll(typeList);
@@ -399,7 +402,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
 
 
         FlexLayout dateRangeComponent = new FlexLayout(minVal, new Text(" – "), maxVal);
-        dateRangeComponent.setAlignItems(FlexComponent.Alignment.BASELINE);
+        dateRangeComponent.setAlignItems(Alignment.BASELINE);
         dateRangeComponent.addClassName(LumoUtility.Gap.XSMALL);
         dateRangeComponent.setWidth("100%");
 
@@ -421,7 +424,7 @@ public class SearchView extends Composite<VerticalLayout> implements BeforeEnter
                 .withPosition(Tooltip.TooltipPosition.TOP);
 
         return LayoutBuilder.builder()
-                .setAlignItem(FlexComponent.Alignment.CENTER)
+                .setAlignItem(Alignment.CENTER)
                 .setComponents(s, value)
                 .buildHorizontal();
     }

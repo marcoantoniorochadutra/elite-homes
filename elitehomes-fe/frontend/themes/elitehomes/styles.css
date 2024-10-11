@@ -52,7 +52,7 @@ vaadin-menu-bar-button, vaadin-button {
     background-clip: padding-box, border-box;
 }
 
-vaadin-button:hover, vaadin-menu-bar-button:hover {
+vaadin-button:hover, vaadin-menu-bar-button:hover, vaadin-combo-box:hover {
     --x: 20%;
 }
 
@@ -82,6 +82,17 @@ vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-fi
 
 /* Custom Styles */
 
+vaadin-combo-box::part(input-field) {
+    border-radius: 5px;
+    transition: .25s;
+    border: 2.2px solid transparent;
+    background: linear-gradient(45deg, #363636 60%, #232323) var(--x, 0)/ 200%,
+                linear-gradient(135deg, #4E4C4C 0%, rgba(35,35,35,1) 55%) var(--x, 0)/ 200%;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+
 .image-container {
     background-image:url('https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
 }
@@ -105,6 +116,7 @@ vaadin-big-decimal-field::part(input-field), vaadin-integer-field::part(input-fi
     transition: opacity 0.3s ease, max-height 0.3s ease;
     gap: 0px;
 }
+
 
 .bg-border-nh {
     --lumo-header-text-color: white;

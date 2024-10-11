@@ -16,13 +16,17 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Singleton
 @Path("/v1/property")
 @Authentication(types = {UserType.MASTER})
@@ -72,5 +76,28 @@ public class PropertyController {
     @Consumes({MediaType.APPLICATION_JSON})
     public List<PropertyResultDto> listByCriteria(@Context LoginDto loginDto) {
         return propertyService.listByCriteria(new HashMap<>(), loginDto);
+    }
+
+    @PUT
+    @Path("/{id}/photo/{fileName}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes("*/*")
+    public PropertyDto addImagem(@PathParam("id") Long id,
+                                 @PathParam("photoName") String photoName,
+                                 @QueryParam("mainPhoto") Boolean mainPhoto,
+                                 byte[] file,
+                                 @Context LoginDto login) {
+        log.info("Saving File {} : {}", photoName, FileUtils.byteCountToDisplaySize(file.length));
+        return propertyService.savePhoto(id, photoName, file, login);
+    }
+
+    @DELETE
+    @Path("/{id}/photo/{fileName}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public PropertyDto removeAnexo(@PathParam("id") Long id,
+                                   @PathParam("photoName") String photoName,
+                                   @Context LoginDto login) {
+        log.info("Deleting File {}", photoName);
+        return propertyService.deletePhoto(id, photoName, login);
     }
 }

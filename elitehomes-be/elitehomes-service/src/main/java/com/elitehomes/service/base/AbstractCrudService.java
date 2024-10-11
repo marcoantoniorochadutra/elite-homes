@@ -25,8 +25,6 @@ public abstract class AbstractCrudService<D extends LifeCycleFields, M> implemen
 	protected abstract Class<D> getDomainClass();
 	protected abstract Class<M> getModelClass();
 
-//	private final ModelMapper modelMapper;
-
 	private final Mapper modelMapper;
 
 	@Autowired

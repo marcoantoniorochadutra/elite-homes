@@ -1,0 +1,33 @@
+package com.elitehomes.service.converter;
+
+import com.elitehomes.core.entity.base.SelectableDto;
+import com.elitehomes.domain.entity.Address;
+import com.elitehomes.domain.entity.City;
+import com.elitehomes.domain.repository.CityRepository;
+import com.elitehomes.model.AddressDto;
+import com.github.dozermapper.core.DozerConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CityConverter extends DozerConverter<Address, AddressDto>{
+
+	private final CityRepository cityRepository;
+
+	@Autowired
+	public CityConverter(CityRepository cityRepository) {
+        super(Address.class, AddressDto.class);
+        this.cityRepository = cityRepository;
+	}
+
+
+	@Override
+	public AddressDto convertTo(Address source, AddressDto destination) {
+		return null;
+	}
+
+	@Override
+	public Address convertFrom(AddressDto source, Address destination) {
+		return null;
+	}
+}

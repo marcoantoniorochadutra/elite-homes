@@ -20,7 +20,6 @@ import java.util.Locale;
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
 public class UserDetails {
 

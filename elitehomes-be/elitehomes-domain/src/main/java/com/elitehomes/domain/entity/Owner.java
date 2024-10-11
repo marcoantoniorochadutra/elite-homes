@@ -18,7 +18,6 @@ import java.time.Instant;
 import java.util.Objects;
 
 
-@Data
 @Setter
 @Getter
 @NoArgsConstructor

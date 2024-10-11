@@ -1,5 +1,6 @@
 package com.elitehomes.service;
 
+import com.elitehomes.core.entity.base.SelectableDto;
 import com.elitehomes.domain.entity.RealEstate;
 import com.elitehomes.model.AddressDto;
 import com.elitehomes.model.ContactDto;
@@ -24,9 +25,7 @@ public class RealStateServiceTest extends AbstractTestSupport {
     public void shouldCreateRealState() {
 
         AddressDto address = AddressDto.builder()
-                .withCountry("Brasil")
-                .withState("Santa Catarina")
-                .withCity("Imbituba")
+                .withCity(new SelectableDto("1"))
                 .withNeighborhood("Centro")
                 .withStreet("Rua Santos")
                 .withNumber("123")
@@ -55,9 +54,9 @@ public class RealStateServiceTest extends AbstractTestSupport {
         assertEquals(realEstate.getCompanyRegNumber(), result.getCompanyRegNumber());
         assertEquals(realEstate.getCreci(), result.getCreci());
 
-        assertEquals(address.getCountry(), result.getAddress().getCountry());
-        assertEquals(address.getState(), result.getAddress().getState());
-        assertEquals(address.getCity(), result.getAddress().getCity());
+        assertEquals("Brasil", result.getAddress().getCountry());
+        assertEquals("RO", result.getAddress().getState());
+        assertEquals(address.getCity().getKey(), result.getAddress().getCity().getKey());
         assertEquals(address.getNeighborhood(), result.getAddress().getNeighborhood());
         assertEquals(address.getStreet(), result.getAddress().getStreet());
         assertEquals(address.getNumber(), result.getAddress().getNumber());
@@ -80,9 +79,7 @@ public class RealStateServiceTest extends AbstractTestSupport {
         RealEstateDto toUpdate = modelMapper.map(realEstate, RealEstateDto.class);
 
         AddressDto address = AddressDto.builder()
-                .withCountry("Brasil")
-                .withState("Rio Grande do Sul")
-                .withCity("Gravataí")
+                .withCity(new SelectableDto("4792"))
                 .withNeighborhood("Centro")
                 .withStreet("Rua Dona Aurora")
                 .withNumber("456")
@@ -110,9 +107,9 @@ public class RealStateServiceTest extends AbstractTestSupport {
         assertEquals(toUpdate.getCompanyRegNumber(), result.getCompanyRegNumber());
         assertEquals(realEstate.getCreci(), result.getCreci());
 
-        assertEquals(address.getCountry(), result.getAddress().getCountry());
-        assertEquals(address.getState(), result.getAddress().getState());
-        assertEquals(address.getCity(), result.getAddress().getCity());
+        assertEquals("Brasil", result.getAddress().getCountry());
+        assertEquals("RS", result.getAddress().getState());
+        assertEquals(address.getCity().getKey(), result.getAddress().getCity().getKey());
         assertEquals(address.getNeighborhood(), result.getAddress().getNeighborhood());
         assertEquals(address.getStreet(), result.getAddress().getStreet());
         assertEquals(address.getNumber(), result.getAddress().getNumber());

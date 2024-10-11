@@ -4,7 +4,7 @@ public class TenantContext {
 
 	public static final String ROOT = "elite_homes_root";
 
-    private static final ThreadLocal<String> currentTenant = ThreadLocal.withInitial(() -> ROOT);
+    private static final ThreadLocal<String> currentTenant = new ThreadLocal<>();
 
     public static void setCurrentTenant(String tenant) {
         currentTenant.set(tenant);

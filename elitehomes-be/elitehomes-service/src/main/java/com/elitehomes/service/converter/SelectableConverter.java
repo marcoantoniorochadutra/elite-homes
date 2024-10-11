@@ -30,14 +30,16 @@ public abstract class SelectableConverter implements CustomConverter {
             return null;
         }
 
-        if(isSourceSelectableDto(sourceClass)) {
+        if (isSelectable(sourceClass)) {
             SelectableDto source = (SelectableDto) sourceFieldValue;
 
-            if(isDestinationEnum(destinationClass)) {
-              return getEnum((Class<? extends Enum>) destinationClass, source);
-            } else {
+            if (isDestinationEnum(destinationClass)) {
+                return getEnum((Class<? extends Enum>) destinationClass, source);
+            } else if(isSelectableImpl(destinationClass)) {
                 JpaRepository<?, Long> repository = getRepository(destinationClass);
                 return repository.getReferenceById(NumberUtils.toLong(source.getKey()));
+            } else {
+                return null;
             }
         }
 
@@ -45,20 +47,24 @@ public abstract class SelectableConverter implements CustomConverter {
         return new SelectableDto(selectable.getKey(), selectable.getValue());
     }
 
-
-	private Enum getEnum(Class<? extends Enum> destinationClass, SelectableDto source) {
-		try {
-			return Enum.valueOf(destinationClass, source.getKey());
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    private Enum getEnum(Class<? extends Enum> destinationClass, SelectableDto source) {
+        try {
+            return Enum.valueOf(destinationClass, source.getKey());
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     private boolean isDestinationEnum(Class<?> destinationClass) {
         return destinationClass.isEnum();
     }
 
-    private boolean isSourceSelectableDto(Class<?> sourceClass) {
+    private boolean isSelectableImpl(Class<?> sourceClass) {
+        return Selectable.class.isAssignableFrom(sourceClass);
+    }
+
+    private boolean isSelectable(Class<?> sourceClass) {
         return SelectableDto.class.isAssignableFrom(sourceClass);
     }
+
 }

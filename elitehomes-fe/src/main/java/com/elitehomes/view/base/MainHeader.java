@@ -33,12 +33,16 @@ public class MainHeader extends Composite<HorizontalLayout>  {
         MenuBar menuBar = new MenuBar();
         menuBar.addItem(buildAreaCliente());
 
-        Button btnLoc = ButtonBuilder.builder().setText("Locações").build();
-        btnLoc.addClickListener(event -> UI.getCurrent().navigate(HomeView.class));
+        MenuBar tresp = new MenuBar();
+        tresp.addItem(buildMore());
+
+        Button btnLoc = ButtonBuilder.builder().setText("Locações").setNavigate(HomeView.class).build();
         Button btnVen = ButtonBuilder.builder().setText("Vendas").build();
         Button btnLan = ButtonBuilder.builder().setText("Lançamentos").build();
 
+
         locale = new ComboBox<>();
+        locale.setClassName("locale");
         locale.setItems(LocaleContext.AVAILABLE_LOCALE);
         locale.setValue(UI.getCurrent().getSession().getLocale());
         locale.addValueChangeListener(event -> updateComponents(event.getValue()));
@@ -51,8 +55,8 @@ public class MainHeader extends Composite<HorizontalLayout>  {
 
         HorizontalLayout rightLayout = LayoutBuilder.builder()
                 .setPadding(true)
-                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, locale, divisor, menuBar)
-                .setComponents(btnLoc, btnVen, btnLan, locale, divisor, menuBar, divisor, menuBar)
+                .setAlignment(FlexComponent.Alignment.CENTER, btnLoc, btnVen, btnLan, locale, divisor, menuBar, tresp)
+                .setComponents(btnLoc, btnVen, btnLan, locale, divisor, menuBar, tresp)
                 .buildHorizontal();
 
         getContent().add(leftLayout, rightLayout);
@@ -65,6 +69,14 @@ public class MainHeader extends Composite<HorizontalLayout>  {
     private void updateComponents(Locale value) {
         UI.getCurrent().getSession().setLocale(value);
 
+    }
+
+    private HorizontalLayout buildMore() {
+        return LayoutBuilder.builder()
+                .setClassName("tes")
+                .setComponents(LineAwesomeIcon.ELLIPSIS_V_SOLID.create())
+                .setJustify(FlexComponent.JustifyContentMode.CENTER)
+                .buildHorizontal();
     }
 
     private HorizontalLayout buildAreaCliente() {

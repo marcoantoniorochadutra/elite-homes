@@ -1,0 +1,38 @@
+<config xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+		xmlns='http://www.ehcache.org/v3'>
+
+	<service>
+		<jsr107:defaults
+				default-template="default-template"
+				enable-statistics="true"/>
+	</service>
+
+	<cache-template name="default-template">
+		<expiry>
+			<ttl unit="minutes">5</ttl>
+		</expiry>
+		<resources>
+			<heap unit="entries">10000</heap>
+		</resources>
+	</cache-template>
+
+	<cache-template name="long-ttl-template">
+		<expiry>
+			<ttl unit="minutes">30</ttl>
+		</expiry>
+		<resources >
+			<heap unit="entries">500</heap>
+		</resources>
+	</cache-template>
+
+	<cache-template name="short-ttl-template">
+		<expiry>
+			<ttl unit="minutes">2</ttl>
+		</expiry>
+		<resources>
+			<heap unit="entries">15000</heap>
+		</resources>
+	</cache-template>
+
+</config>
+<!--        https://www.baeldung.com/spring-boot-ehcache-->

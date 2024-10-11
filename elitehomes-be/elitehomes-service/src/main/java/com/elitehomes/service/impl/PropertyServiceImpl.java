@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-public class PropertyServiceImpl extends AbstractCrudService<Property, PropertyDto> implements PropertyService, AttachmentService {
+public class PropertyServiceImpl extends AbstractCrudService<Property, PropertyDto> implements PropertyService {
 
     private final AttachmentRepository attachmentRepository;
     private final PropertyRepository propertyRepository;
@@ -56,11 +56,6 @@ public class PropertyServiceImpl extends AbstractCrudService<Property, PropertyD
     }
 
     @Override
-    public AttachmentRepository getAttachmentRepository() {
-        return attachmentRepository;
-    }
-
-    @Override
     public List<PropertyResultDto> listByCriteria(Map<String, Object> searchCriteria, LoginDto login) {
         List<Property> list = propertyRepository.findAll();
 
@@ -70,6 +65,16 @@ public class PropertyServiceImpl extends AbstractCrudService<Property, PropertyD
         });
 
         return result;
+    }
+
+    @Override
+    public PropertyDto savePhoto(Long id, String filename, byte[] file, LoginDto login) {
+        return null;
+    }
+
+    @Override
+    public PropertyDto deletePhoto(Long id, String filename, LoginDto login) {
+        return null;
     }
 }
 

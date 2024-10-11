@@ -12,6 +12,11 @@
 				<class-b>com.elitehomes.core.entity.base.SelectableDto</class-b>
 			</converter>
 
+			<converter type="com.elitehomes.service.converter.AddressConverter">
+				<class-a>com.elitehomes.domain.entity.Address</class-a>
+				<class-b>com.elitehomes.model.AddressDto</class-b>
+			</converter>
+
 		</custom-converters>
 
 	</configuration>

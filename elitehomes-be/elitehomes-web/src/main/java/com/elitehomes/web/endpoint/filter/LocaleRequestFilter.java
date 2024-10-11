@@ -2,6 +2,7 @@ package com.elitehomes.web.endpoint.filter;
 
 import com.elitehomes.core.auth.LoginDto;
 import com.elitehomes.core.config.LocaleContext;
+import com.elitehomes.domain.config.TenantContext;
 import com.elitehomes.web.authentication.LoginFactory;
 import jakarta.annotation.Priority;
 import jakarta.ws.rs.Priorities;
@@ -20,6 +21,11 @@ public class LocaleRequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
+        String ten = requestContext.getHeaders().getFirst("tenant");
+        System.err.println(ten);
+        TenantContext.setCurrentTenant(ten);
+        System.err.println("setting ten: " + ten);
+
         LoginDto login = (LoginDto) requestContext.getProperty(LoginFactory.LOGIN_PROPERTY);
 		if (Objects.nonNull(login)) {
             Locale locale = new Locale(login.getLocale());

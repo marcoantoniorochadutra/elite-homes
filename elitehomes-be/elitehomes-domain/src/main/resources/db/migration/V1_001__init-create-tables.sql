@@ -1,13 +1,13 @@
 
+
     create table address (
+        city_id smallint,
         id integer unsigned not null auto_increment,
         number varchar(10),
         neighborhood varchar(150),
-        city varchar(255),
         complement varchar(255),
         country varchar(255),
         description varchar(255),
-        state varchar(255),
         street varchar(255),
         zip_code varchar(255),
         primary key (id)
@@ -18,6 +18,14 @@
         id integer unsigned not null auto_increment,
         name varchar(255) not null,
         url varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB;
+
+    create table city (
+        ibge integer not null,
+        id smallint not null,
+        state_id smallint not null,
+        name varchar(100) not null,
         primary key (id)
     ) engine=InnoDB;
 
@@ -41,8 +49,8 @@
         num_bedroom integer check (num_bedroom<=15),
         num_suite integer check (num_suite<=15),
         parking_spaces integer check (parking_spaces<=15),
+        price float(53),
         type tinyint unsigned not null check (type between 0 and 24),
-        value float(53),
         version smallint default 0 not null,
         address_id integer unsigned not null,
         created_at timestamp not null,
@@ -51,6 +59,15 @@
         title varchar(50) not null,
         description varchar(255),
         value_description varchar(255),
+        primary key (id)
+    ) engine=InnoDB;
+
+    create table state (
+        active bit not null default false,
+        ibge smallint not null,
+        id smallint not null,
+        uf varchar(3) not null,
+        name varchar(50) not null,
         primary key (id)
     ) engine=InnoDB;
 
@@ -71,8 +88,17 @@
         primary key (id)
     ) engine=InnoDB;
 
+    alter table city
+       add constraint uk_city_ibge unique (ibge);
+
     alter table property
        add constraint UK_5ly66b153lksl8njtd39hj6mq unique (address_id);
+
+    alter table state
+       add constraint uk_state_uf unique (uf);
+
+    alter table state
+       add constraint uk_state_ibge unique (ibge);
 
     alter table users
        add constraint uk_user_email unique (email);
@@ -80,10 +106,20 @@
     alter table users
        add constraint UK_4ai7rrtrvwtgtqavv8okpxrul unique (user_details_id);
 
+    alter table address
+       add constraint fk_address_city
+       foreign key (city_id)
+       references city (id);
+
     alter table attachment
        add constraint fk_attachment_property
        foreign key (attachment_id)
        references property (id);
+
+    alter table city
+       add constraint fk_city_state
+       foreign key (state_id)
+       references state (id);
 
     alter table property
        add constraint fk_address_property

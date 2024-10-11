@@ -1,9 +1,7 @@
 package com.elitehomes.domain.entity;
 
 
-import com.elitehomes.domain.base.LifeCycleFields;
 import com.elitehomes.domain.base.EntityLifeCycle;
-import com.elitehomes.domain.converter.AddressConverter;
 import com.elitehomes.domain.converter.ContactConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,7 +14,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,8 +52,8 @@ public class RealEstate extends EntityLifeCycle {
 
 	@Valid
 	@NotNull
-	@Column(columnDefinition = "json")
-	@Convert(converter = AddressConverter.class)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "address_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_address_real_estate"))
     private Address address;
 
 	@Valid
@@ -66,7 +63,6 @@ public class RealEstate extends EntityLifeCycle {
 	private Contact contact;
 
 	@Builder(setterPrefix = "with")
-
 	public RealEstate(Long id, @NotNull Instant createdAt, @NotNull Short version, String name, String companyRegNumber, String tenantKey, String creci, Address address, Contact contact) {
 		super(id, createdAt, version);
 		this.name = name;
